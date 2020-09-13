@@ -8,7 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
     <!-- Static CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'log/main.css' %}">
@@ -29,8 +30,15 @@
     <div class="site">
       <!-- NavBar -->
       <header class="site-header">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top scrolling-navbar">
           <a class="navbar-brand" id="brand" href="/">Billed Fitness Log</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggler">
+            <!-- place the rest of the NavBar elements here -->
+          </div>
         </nav>
       </header>
 
@@ -47,14 +55,20 @@
       <footer id="footer" class="py-4 bg-dark text-white-50">
         <ul class="nav justify-content-center">
           <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">About Us</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="https://github.com/keanuwilliams/Billed-Fitness-Log" target="_blank">GitHub Repo</a>
           </li>
           <li class="nav-item">
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Help</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Terms & Conditions</a>
+          </li>
         </ul>
         <div class="container text-center">
-          <small>Copyright &copy; 2020 Billed Fitness Log</small>
+          <small>Copyright &copy; 2020 Keanu Williams</small>
         </div>
       </footer>
     </div>
