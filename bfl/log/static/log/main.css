@@ -11,7 +11,7 @@
 }
 
 .site-header {
-  padding-bottom: 20px;
+  padding-bottom: 30px;
 }
 
 .site-content {
@@ -26,6 +26,11 @@
     margin-top: var(--space);
     height: 0;
     visibility: hidden;
+}
+
+#brand {
+  font-family: "Roboto";
+  font-size: 25px;
 }
 
 a:link, a:visited {

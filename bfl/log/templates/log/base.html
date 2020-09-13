@@ -15,9 +15,10 @@
 
     <!-- Fonts -->
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto" />
 
     {% if title %}
-      <title>Billed Fitness Log - {{ title }}</title>
+      <title>Billed Fitness Log | {{ title }}</title>
     {% else %}
       <title>Billed Fitness Log</title>
     {% endif %}
@@ -29,11 +30,11 @@
       <!-- NavBar -->
       <header class="site-header">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a class="navbar-brand" href="#">Billed Fitness Log</a>
+          <a class="navbar-brand" id="brand" href="/">Billed Fitness Log</a>
         </nav>
       </header>
 
-    <!-- Page Contents -->
+      <!-- Page Contents -->
       <div class="site-content">
         <main role="main" class="container">
           <div class=row>
@@ -42,7 +43,7 @@
         </main>
       </div>
 
-    <!-- Footer -->
+      <!-- Footer -->
       <footer id="footer" class="py-4 bg-dark text-white-50">
         <ul class="nav justify-content-center">
           <li class="nav-item">
