@@ -1,3 +1,92 @@
+:root {
+    --space: 1.5em 0;
+    --space: 2em 0;
+}
+
+.site {
+    display: flex;
+    background-color: whitesmoke;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 .site-header {
-  margin-bottom: 80px;
+  padding-bottom: 20px;
+}
+
+.site-content {
+    flex: 1 0 auto;
+    padding: var(--space) var(--space) 0;
+    width: 100%;
+}
+
+.site-content:after {
+    content: '\00a0';
+    display: block;
+    margin-top: var(--space);
+    height: 0;
+    visibility: hidden;
+}
+
+a:link, a:visited {
+  color: white;
+}
+
+a:hover {
+  color: gray;
+}
+
+/* Apply Open Sans to Website */
+h1 {
+  font-family: "Open Sans";
+  font-size: 30px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: bold;
+  line-height: 26px;
+}
+
+h2 {
+  font-family: "Open Sans";
+  font-size: 22px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: bold;
+  line-height: 21px;
+}
+
+h3 {
+  font-family: "Open Sans";
+  font-size: 14px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: bold;
+  line-height: 15px;
+}
+
+a,p {
+  font-family: "Open Sans";
+  font-size: 14px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+blockquote {
+  font-family: "Open Sans";
+  font-size: 21px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 30px;
+}
+
+pre {
+  font-family: "Open Sans";
+  font-size: 13px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 18px;
 }
