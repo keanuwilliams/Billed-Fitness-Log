@@ -1,6 +1,85 @@
-{% extends "log/base.html" %}
-{% block content %}
-<div class="container-fluid">
-  <h1>Landing</h1>
-</div>
-{% endblock content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <!-- Static CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'log/main.css' %}">
+
+    <!-- Fonts -->
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto" />
+
+    {% if title %}
+      <title>Billed Fitness Log | {{ title }}</title>
+    {% else %}
+      <title>Billed Fitness Log</title>
+    {% endif %}
+
+  </head>
+  <body>
+
+    <div class="site">
+      <!-- NavBar -->
+      <header>
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar" style="background-color: #28334aff;">
+          <div class="container justify-content-center">
+            <a class="navbar-brand" id="brand" href="/">Billed Fitness Log</a>
+          </div>
+        </nav>
+      </header>
+
+      <!-- Page Contents -->
+      <div class="site-content">
+        <main role="main" class="container-fluid">
+          <div class="card">
+            <img src="{% static 'media/images/gym-weight.jpg' %}" style="width: 100%; min-height: 600px;" alt="Gym Weights">
+            <div class="card-img-overlay text-center" style="padding-top: 11em; color: white; background-color: rgba(0,0,0,0.7)">
+              <h1 class="card-title" style="font-size: 50px; line-height: 50px;">TRACK ALL OF YOUR WORKOUTS</h1>
+              <h2 class="card-content" style="font-size: 30px; line-height: 50px;">It is easy and free and just a few clicks away!</h2>
+              <button type="button" class="btn btn-lg" style="background-color: #fbde44ff; padding: 10px 30px 10px 30px;">Get Started</button>
+              <br/>
+              <a href="#">Already have an account?</a>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <!-- Footer -->
+      <footer id="footer" class="py-4 text-white-50" style="background-color: #28334aff;">
+        <ul class="nav justify-content-center">
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/keanuwilliams/Billed-Fitness-Log" target="_blank">GitHub Repo</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Help</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Terms & Conditions</a>
+          </li>
+        </ul>
+        <div class="container text-center">
+          <small>Copyright &copy; 2020 Keanu Williams</small>
+        </div>
+      </footer>
+    </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  </body>
+</html>
