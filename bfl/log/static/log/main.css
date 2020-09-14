@@ -6,7 +6,7 @@
 
 .site {
     display: flex;
-    background-color: whitesmoke;
+    background-color: #28334aff;
     flex-direction: column;
     min-height: 100vh;
 }
