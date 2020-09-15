@@ -123,3 +123,9 @@ STATIC_URL = '/static/'
 
 # Crispy Forms to use Bootstrap v4
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Used for redirect
+LOGIN_REDIRECT_URL = 'user_home'
+
+# Login page
+LOGIN_URL = 'login'

@@ -1,6 +1,5 @@
 {% extends "users/base.html" %}
-{% load static %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 <div class="container">
   <div class="row">
@@ -13,14 +12,13 @@
   </div>
   <div class="card">
     <div class="card-body">
-      <form>
+      <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+          {{ form | crispy }}
+        </fieldset>
         <div class="form-group">
-          <label for="email">Email Address</label>
-          <input type="email" class="form-control" id="email">
-        </div>
-        <div class="form-group">
-          <label for="pw">Password</label>
-          <input type="password" class="form-control" id="pw">
+          <button class="btn btn-lg" style="background-color: #fbde44ff; color: black;" type="submit">Submit</button>
         </div>
       </form>
     </div>

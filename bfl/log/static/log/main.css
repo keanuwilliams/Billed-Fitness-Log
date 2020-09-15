@@ -12,7 +12,7 @@
 }
 
 .site-header {
-  padding-bottom: 100px;
+  padding-bottom: 50px;
 }
 
 .site-content {
@@ -36,6 +36,10 @@ a:link, a:visited {
 
 a:hover {
   color: gray;
+}
+
+.navbar-link, .navbar-item, .dropdown-item {
+  color: black;
 }
 
 /* Apply Open Sans to Website */
