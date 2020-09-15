@@ -29,12 +29,6 @@
     visibility: hidden;
 }
 
-/* For NavBar */
-#brand {
-  font-family: "Roboto";
-  font-size: 25px;
-}
-
 /* Links */
 a:link, a:visited {
   color: white;
