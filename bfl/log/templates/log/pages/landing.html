@@ -32,7 +32,7 @@
       <header>
         <nav class="navbar navbar-expand-lg navbar-dark scrolling-navbar">
           <div class="container justify-content-center">
-            <a class="navbar-brand" id="brand" href="/">Billed Fitness Log</a>
+            <a class="navbar-brand" id="brand" href="{% url 'landing' %}">Billed Fitness Log</a>
           </div>
         </nav>
       </header>
@@ -46,11 +46,12 @@
               <div class="card-img-overlay text-center" style="padding-top: 16em; color: white; background-color: rgba(0,0,0,0.75)">
                 <h1 class="card-title" style="font-size: 50px; line-height: 50px;">TRACK ALL OF YOUR WORKOUTS</h1>
                 <h2 class="card-content" style="font-size: 30px; line-height: 50px;">It is easy and free and just a few clicks away!</h2>
-                <button type="button" class="btn btn-lg" style="padding: 10px 30px 10px 30px; margin: 10px 0 5px; background-color: #fbde44ff;">
+                <a role="button" class="btn btn-lg" href="{% url 'create-an-account' %}"
+                style="padding: 10px 30px 10px 30px; margin: 10px 0 5px; background-color: #fbde44ff; color: black;">
                   Get Started
-                </button>
+                </a>
                 <br/>
-                <a href="#" style="font-size: 16px">Already have an account?</a>
+                <a href="{% url 'login' %}" style="font-size: 16px">Already have an account?</a>
               </div>
             </div>
           </div>
