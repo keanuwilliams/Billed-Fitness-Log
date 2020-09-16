@@ -30,12 +30,13 @@
 }
 
 /* Links */
-a:link, a:visited {
+.nav-link, .dropdown-toggle {
   color: white;
 }
 
-a:hover {
+.nav-link:hover, .dropdown-toggle:hover {
   color: gray;
+  text-decoration: none;
 }
 
 .navbar-link, .navbar-item, .dropdown-item {

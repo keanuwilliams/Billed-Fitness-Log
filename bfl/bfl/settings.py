@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'log.apps.LogConfig',
+    'django_cleanup',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
