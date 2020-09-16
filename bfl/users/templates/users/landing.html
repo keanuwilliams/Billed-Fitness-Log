@@ -12,46 +12,40 @@
     integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
     <!-- Static CSS -->
-    <link rel="stylesheet" type="text/css" href="{% static 'log/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'users/main.css' %}">
 
     <!-- Fonts -->
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto" />
 
-    {% if title %}
-      <title>Billed Fitness Log | {{ title }}</title>
-    {% else %}
-      <title>Billed Fitness Log</title>
-    {% endif %}
+    <title>Billed Fitness Log</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon"  type="image/x-icon" href="{% static 'users/images/logo/favicon.ico' %}" />
 
   </head>
   <body>
 
     <div class="site">
-      <!-- NavBar -->
-      <header>
-        <nav class="navbar navbar-expand-lg navbar-dark scrolling-navbar">
-          <div class="container justify-content-center">
-            <a class="navbar-brand" id="brand" href="{% url 'landing' %}">Billed Fitness Log</a>
-          </div>
-        </nav>
-      </header>
-
       <!-- Page Contents -->
       <div class="site-content">
         <main role="main" class="container-fluid">
           <div class="row">
             <div class="card bg-dark">
-              <img src="{% static 'media/images/gym-weight.jpg' %}" style="width: 100%; min-height: 800px;" alt="Gym Weights">
-              <div class="card-img-overlay text-center" style="padding-top: 16em; color: white; background-color: rgba(0,0,0,0.75)">
-                <h1 class="card-title" style="font-size: 50px; line-height: 50px;">TRACK ALL OF YOUR WORKOUTS</h1>
-                <h2 class="card-content" style="font-size: 30px; line-height: 50px;">It is easy and free and just a few clicks away!</h2>
-                <a role="button" class="btn btn-lg" href="{% url 'create-an-account' %}"
+              <img src="{% static 'users/images/gym-weight.jpg' %}" style="width: 100%; min-height: 800px;" alt="Gym Weights">
+              <div class="card-img-overlay text-center" style="padding-top: 2em; color: white; background-color: rgba(0,0,0,0.75)">
+                <h1 style="color: white; font-size: 30px; padding-bottom: 7em;">
+                  Billed Fitness Log
+                  <img src="{% static 'users/images/logo/bfl-logo_800x800.png' %}" style="width: 3%; min-width: 3%; min-height: 3%;">
+                </h1>
+                <h1 class="card-title" style="font-size: 55px; line-height: 50px;">TRACK ALL OF YOUR WORKOUTS</h1>
+                <h2 class="card-content" style="font-size: 30px; line-height: 50px;">It is easy, free, and just a few clicks away!</h2>
+                <a role="button" class="btn btn-lg" href="{% url 'register' %}"
                 style="padding: 10px 30px 10px 30px; margin: 10px 0 5px; background-color: #fbde44ff; color: black;">
                   Get Started
                 </a>
                 <br/>
-                <a href="{% url 'login' %}" style="font-size: 16px">Already have an account?</a>
+                <a href="{% url 'login' %}" style="font-size: 16px; color: white;">Already have an account?</a>
               </div>
             </div>
           </div>
@@ -79,7 +73,7 @@
                     <path d="M6.445 11.688V6.354h-.633A12.6 12.6 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23z"/>
                   </svg>
                   <h4 class="card-title" style="padding-top: 10px;">Log Your Workouts</h4>
-                  <p class="card-text">You are able to log your workout sessions for the day, whether it is a weightlifting or cardio workout.</p>
+                  <p class="card-text">All users are able to log each of their workouts (cardio or weightlifting) during their workout session for any day of their choosing.</p>
                 </div>
               </div>
             </div>
@@ -92,7 +86,7 @@
                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                   </svg>
                   <h4 class="card-title" style="padding-top: 10px;">Edit Your Workouts</h4>
-                  <p class="card-text">If you made a mistake with your workout? Don't worry! You are able to edit your workout to your liking.</p>
+                  <p class="card-text">If you made a mistake or need to make a change to your workout, do not worry! You are able to edit any of your workout sessions to your liking.</p>
                 </div>
               </div>
             </div>

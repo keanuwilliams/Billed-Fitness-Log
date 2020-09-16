@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,7 +32,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'users.apps.UsersConfig',
     'log.apps.LogConfig',
+    'django_cleanup',
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -118,3 +122,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 STATIC_URL = '/static/'
+
+# Media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+# Crispy Forms to use Bootstrap v4
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Used for redirect
+LOGIN_REDIRECT_URL = 'user_home'
+
+# Login page
+LOGIN_URL = 'login'
