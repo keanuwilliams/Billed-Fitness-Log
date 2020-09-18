@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .models import Profile
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 def landing(request):
@@ -12,6 +14,8 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
+            profile = Profile(user=User.objects.get(username=username))
+            profile.save()
             messages.success(request, f'Account successfully created for {username}!')
             return redirect('login')
     else:
