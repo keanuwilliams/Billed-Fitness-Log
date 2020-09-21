@@ -74,7 +74,7 @@ def user_home(request):
 def profile(request):
     username = request.user.username
     name = request.user.first_name + ' ' + request.user.last_name
-    title = name + ' (@' + username + ')' 
+    title = name + ' (@' + username + ')'
     context = {
         'title': title,
     }
