@@ -72,8 +72,11 @@ def user_home(request):
 
 @login_required
 def profile(request):
+    username = request.user.username
+    name = request.user.first_name + ' ' + request.user.last_name
+    title = name + ' (@' + username + ')' 
     context = {
-        'title': 'User Profile',
+        'title': title,
     }
     return render(request, 'users/profile.html', context)
 

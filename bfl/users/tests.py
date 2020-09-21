@@ -44,15 +44,33 @@ class UserTests(TestCase):
         my_user = create_user()
         my_user_from_database = User.objects.get(username="myuser")
         self.assertEqual(my_user, my_user_from_database)
+        self.assertTrue(user.is_active)
+        self.assertFalse(user.is_staff)
+        self.assertFalse(user.is_superuser)
 
     def test_duplicate_user_email(self):
         """
-        Test that a user is not able to create an account with the same email as a user that
-        is already created.
+        Test that a user is not able to create an account with the same email as a user that is already created.
         """
         my_user = create_user()
-        my_second_user = create_user(first_name='John', last_name="Doe", username="johndoe")
-        self.assertNotEqual(my_user.email, my_second_user.email)
+        try:
+            my_second_user = create_user(first_name='John', last_name="Doe", username="johndoe")
+        except Exception as e:
+            pass # if exception is raised, that is a good sign
+        else:
+            self.assertNotEqual(my_user.email, my_second_user.email)
+
+    def test_duplicate_user_username(self):
+        """
+        Test that a user is not able to create an account with the same username as a user that is already created.
+        """
+        my_user = create_user()
+        try:
+            my_second_user = create_user(first_name='John', last_name="Doe", email="johndoe@example.com")
+        except Exception as e:
+            pass # if exception is raised, that is a good sign
+        else:
+            self.assertNotEqual(my_user.username, my_second_user.username)
 
 
 class UsersViewsTests(TestCase):
