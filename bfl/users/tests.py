@@ -44,9 +44,9 @@ class UserTests(TestCase):
         my_user = create_user()
         my_user_from_database = User.objects.get(username="myuser")
         self.assertEqual(my_user, my_user_from_database)
-        self.assertTrue(user.is_active)
-        self.assertFalse(user.is_staff)
-        self.assertFalse(user.is_superuser)
+        self.assertTrue(my_user.is_active)
+        self.assertFalse(my_user.is_staff)
+        self.assertFalse(my_user.is_superuser)
 
     def test_duplicate_user_email(self):
         """
