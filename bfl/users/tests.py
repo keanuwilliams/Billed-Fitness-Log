@@ -39,8 +39,7 @@ class UserTests(TestCase):
 
     def test_register_user(self):
         """
-        Test that a user is able to create an account properly by checking if the user
-        is in the database after the account is created.
+        Test that a user is able to create an account properly by checking if the user is in the database after the account is created.
         """
         my_user = create_user()
         my_user_from_database = User.objects.get(username="myuser")
@@ -53,7 +52,7 @@ class UserTests(TestCase):
         """
         my_user = create_user()
         my_second_user = create_user(first_name='John', last_name="Doe", username="johndoe")
-        self.assertEqual(my_user.email, my_second_user.email)
+        self.assertNotEqual(my_user.email, my_second_user.email)
 
 
 class UsersViewsTests(TestCase):
@@ -62,14 +61,17 @@ class UsersViewsTests(TestCase):
         response = self.client.get(reverse('landing'))
         self.assertEqual(response.status_code, 200)
 
-    def test_authenticated_user_unable_to_access_landing(self):
+    def test_authenticated_user_unable_to_access_unauthenticated_pages(self):
         """
-        The user should be not be able to access the landing page once they are
-        logged in.
+        The user should be not be able to access the unauthenticated pages once they are logged in.
         """
         my_user = create_user()
         self.client.login(username=my_user.username, password=password)
         response = self.client.get(reverse('landing'))
+        self.assertIs(response.status_code==200, False)
+        response = self.client.get(reverse('login'))
+        self.assertIs(response.status_code==200, False)
+        response = self.client.get(reverse('register'))
         self.assertIs(response.status_code==200, False)
 
     def test_login_view(self):

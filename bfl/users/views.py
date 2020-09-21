@@ -1,14 +1,50 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-from .models import Profile
+from django.contrib.auth import authenticate, logout, login as dj_login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .models import Profile
+
 
 def landing(request):
+    if request.user.is_authenticated:
+        return redirect('user_home')
     return render(request, 'users/landing.html')
 
+def login(request):
+    if request.user.is_authenticated:
+        return redirect('user_home')
+    else:
+        logout(request)
+        username = ''
+        password = ''
+        if request.method == 'POST':
+            form = AuthenticationForm(request=request, data=request.POST)
+            if form.is_valid():
+                username = form.cleaned_data.get('username')
+                password = form.cleaned_data.get('password')
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    if user.is_active:
+                        dj_login(request, user)
+                        messages.success(request, "Login successful!")
+                        return redirect('user_home')
+                else:
+                    messages.error(request, "Invalid username or password.")
+            else:
+                messages.error(request, "Invalid username or password.")
+        form = AuthenticationForm()
+        context = {
+            'title': 'Login',
+            'form': form,
+        }
+        return render(request, 'users/login.html', context)
+
 def register(request):
+    if request.user.is_authenticated:
+        return redirect('user_home')
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
