@@ -34,12 +34,16 @@
   color: white;
 }
 
-.nav-link:hover, .dropdown-toggle:hover {
+.nav-link:hover, .dropdown-toggle:hover, .settings-item:hover {
   color: gray;
   text-decoration: none;
 }
 
 .navbar-link, .navbar-item, .dropdown-item {
+  color: black;
+}
+
+.settings-item {
   color: black;
 }
 

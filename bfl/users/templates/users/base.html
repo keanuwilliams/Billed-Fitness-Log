@@ -11,7 +11,7 @@
     integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
     <!-- Static CSS -->
-    <link rel="stylesheet" type="text/css" href="{% static 'users/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'users/main.css' %}?20200922">
 
     <!-- Fonts -->
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
@@ -71,7 +71,7 @@
                     <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink">
                       <h6 class="dropdown-header">@{{ user.username }}</h6>
                       <a class="dropdown-item" href="{% url 'profile' %}" style="color: black;">My Profile</a>
-                      <a class="dropdown-item disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a>
+                      <a class="dropdown-item" href="{% url 'settings' %}" style="color: black;">Settings</a>
                       <a class="dropdown-item" href="{% url 'logout' %}" style="color: black;">Logout</a>
                     </div>
                   </div>
