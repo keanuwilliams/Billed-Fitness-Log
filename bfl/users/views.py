@@ -32,9 +32,9 @@ def login(request):
                         messages.success(request, "Login successful!")
                         return redirect('user_home')
                 else:
-                    messages.error(request, "Invalid username or password.")
+                    messages.warning(request, "Invalid username or password.")
             else:
-                messages.error(request, "Invalid username or password.")
+                messages.warning(request, "Invalid username or password.")
         form = AuthenticationForm()
         context = {
             'title': 'Login',
@@ -66,7 +66,7 @@ def register(request):
 @login_required
 def user_home(request):
     context = {
-        'title': 'User Home',
+        'title': 'Home',
     }
     return render(request, 'users/user-home.html', context)
 
@@ -100,3 +100,10 @@ def edit_profile(request):
         'profile_form': profile_form,
     }
     return render(request, 'users/edit-profile.html', context)
+
+@login_required
+def settings(request):
+    context = {
+        'title': 'Settings',
+    }
+    return render(request, 'users/settings.html', context)
