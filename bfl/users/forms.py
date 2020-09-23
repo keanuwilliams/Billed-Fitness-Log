@@ -31,7 +31,7 @@ class UserUpdateForm(forms.ModelForm):
             user = User.objects.get(email=email)
         except User.DoesNotExist:
             return email
-        raise forms.ValidationError('The email address is already in use by another user.')
+        raise forms.ValidationError('This email address is already in use.')
 
     class Meta:
         model = User

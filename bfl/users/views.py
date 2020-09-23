@@ -1,9 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, logout, login as dj_login
+from django.contrib.auth import (
+    update_session_auth_hash,
+    authenticate,
+    logout,
+    login as dj_login,
+)
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Profile
 
@@ -107,3 +112,22 @@ def settings(request):
         'title': 'Settings',
     }
     return render(request, 'users/settings.html', context)
+
+@login_required
+def change_password(request):
+    if request.method == "POST":
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Password was successfully changed.')
+            return redirect('settings')
+        else:
+            messages.warning(request, 'There was an error changing your password.')
+    else:
+        form = PasswordChangeForm(request.user)
+    context = {
+        'title': 'Change Password',
+        'form': form,
+    }
+    return render(request, 'users/change_password.html', context)
