@@ -8,6 +8,11 @@ class UserRegisterForm(UserCreationForm):
     last_name = forms.CharField(label="Last Name", max_length=30)
     email = forms.EmailField()
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({'autofocus': False})
+        self.fields['first_name'].widget.attrs.update({'autofocus': True})
+
     def clean_email(self):
         email = self.cleaned_data.get('email')
 
@@ -19,7 +24,7 @@ class UserRegisterForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
 
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()
