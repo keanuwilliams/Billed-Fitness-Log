@@ -20,6 +20,7 @@ urlpatterns = [
     path('profile/', user_views.profile, name='profile'),
     path('edit-profile/', user_views.edit_profile, name='edit_profile'),
     path('settings/', user_views.settings, name='settings'),
+    path('deactivate/', user_views.deactivate, name='deactivate'),
     path('change-password/', user_views.change_password, name='change_password'),
     path('login/', user_views.login, name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),

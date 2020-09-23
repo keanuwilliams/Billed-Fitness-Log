@@ -114,6 +114,19 @@ def settings(request):
     return render(request, 'users/settings.html', context)
 
 @login_required
+def deactivate(request):
+    if request.method == "POST":
+        user = request.user
+        user.is_active = False
+        user.save()
+        messages.success(request, f'{user.username} was successfully deactivated.')
+        return redirect('logout')
+    context = {
+        'title': 'Deactivate',
+    }
+    return render(request, 'users/deactivate.html', context)
+
+@login_required
 def change_password(request):
     if request.method == "POST":
         form = PasswordChangeForm(request.user, request.POST)
