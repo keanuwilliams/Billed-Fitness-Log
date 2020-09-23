@@ -6,7 +6,7 @@
 
 .site {
     display: flex;
-    background-color: #28334aff;
+    background-color: #28334a;
     flex-direction: column;
     min-height: 100vh;
 }
@@ -45,6 +45,16 @@
 
 .settings-item {
   color: black;
+}
+
+#form-button {
+  background-color: #fbde44;
+  font-weight: 600;
+}
+
+#form-button:hover {
+  background-color: #e1bc05;
+  font-weight: 600;
 }
 
 /* Apply Open Sans to Website */

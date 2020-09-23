@@ -11,7 +11,7 @@
     integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
     <!-- Static CSS -->
-    <link rel="stylesheet" type="text/css" href="{% static 'users/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'users/main.css' %}?20200923">
 
     <!-- Fonts -->
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
@@ -39,8 +39,8 @@
                 </h1>
                 <h1 class="card-title" style="font-size: 55px; line-height: 50px;">TRACK ALL OF YOUR WORKOUTS</h1>
                 <h2 class="card-content" style="font-size: 30px; line-height: 50px;">It is easy, free, and just a few clicks away!</h2>
-                <a role="button" class="btn btn-lg" href="{% url 'register' %}"
-                style="padding: 10px 30px 10px 30px; margin: 10px 0 5px; background-color: #fbde44ff; color: black;">
+                <a id="form-button" role="button" class="btn btn-lg" href="{% url 'register' %}"
+                style="padding: 10px 30px 10px 30px; margin: 10px 0 5px; font-weight: 600;">
                   Get Started
                 </a>
                 <br/>
