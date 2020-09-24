@@ -30,11 +30,11 @@
 }
 
 /* Links */
-.nav-link, .dropdown-toggle {
+#navbar-link, .dropdown-toggle {
   color: white;
 }
 
-.nav-link:hover, .dropdown-toggle:hover, .settings-item:hover {
+#navbar-link:hover, .dropdown-toggle:hover, .settings-item:hover {
   color: gray;
   text-decoration: none;
 }

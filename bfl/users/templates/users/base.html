@@ -11,7 +11,7 @@
     integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
     <!-- Static CSS -->
-    <link rel="stylesheet" type="text/css" href="{% static 'users/main.css' %}?20200923">
+    <link rel="stylesheet" type="text/css" href="{% static 'users/main.css' %}">
 
     <!-- Fonts -->
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
@@ -32,7 +32,7 @@
     <div class="site">
       <!-- NavBar -->
       <header class="site-header">
-        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(0,0,0,0.25)">
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(0,0,0,0.25);">
           <div class="container">
             {% if user.is_authenticated %}
               <a class="navbar-brand" href="{% url 'user_home' %}">
@@ -50,21 +50,21 @@
               <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item">
                   {% if user.is_authenticated %}
-                    <a class="nav-link" href="{% url 'user_home' %}">Home</a>
+                    <a id="navbar-link" class="nav-link" href="{% url 'user_home' %}">Home</a>
                   {% else %}
-                    <a class="nav-link" href="{% url 'landing' %}">Home</a>
+                    <a id="navbar-link" class="nav-link" href="{% url 'landing' %}">Home</a>
                   {% endif %}
                 </li>
                 <li class="nav-item">
                   {% if user.is_superuser %}
-                    <a class="nav-link" href="/admin/">Admin</a>
+                    <a id="navbar-link" class="nav-link" href="/admin/">Admin</a>
                   {% endif %}
                 </li>
               </ul>
               <ul class="navbar-nav">
                 {% if user.is_authenticated %}
                   <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a id="navbar-link" class="nav-link dropdown-toggle" href="#" id="dropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       {{ user.first_name }} {{ user.last_name }}
                     </a>
                     <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink">
@@ -76,10 +76,10 @@
                   </li>
                 {% else %}
                   <li class="nav-item">
-                    <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                    <a id="navbar-link" class="nav-item nav-link" href="{% url 'login' %}">Login</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                    <a id="navbar-link" class="nav-item nav-link" href="{% url 'register' %}">Register</a>
                   </li>
                 {% endif%}
               </ul>
