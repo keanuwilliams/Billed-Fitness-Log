@@ -5,7 +5,7 @@
   <div class="card-body">
     <div class="media">
       <img class="rounded-circle account-img align-self-center mr-3" style="width: 10em; height: 10em;" src="{{ user.profile.image.url }}">
-      <div class="media-body" style="padding-top: 2em;">
+      <div class="media-body" style="padding-top: 2.5em;">
         <h1 class="account-heading mt-0">{{ user.first_name }} {{ user.last_name }}</h1>
         <h3 class="text-secondary">@{{ user.username }}</h3>
         <h3 class="text-secondary">{{ user.email }}</h3>
@@ -19,8 +19,9 @@
         {{ profile_form | crispy }}
       </fieldset>
       <div class="form-group">
-        <a class="btn btn-secondary active" href="{% url 'profile' %}" role="button">Cancel</a>
-        <button class="btn" style="background-color: #fbde44ff; font-weight: bold; padding: 7px;" type="submit">Update</button>
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
+        <a class="btn btn-lg btn-secondary" href="{{ request.GET.next }}" role="button">Cancel</a>
+        <button id="form-button" class="btn btn-lg" type="submit">Update</button>
       </div>
     </form>
   </div>

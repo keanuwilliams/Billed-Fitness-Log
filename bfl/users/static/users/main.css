@@ -6,7 +6,7 @@
 
 .site {
     display: flex;
-    background-color: #28334aff;
+    background-color: #28334a;
     flex-direction: column;
     min-height: 100vh;
 }
@@ -34,7 +34,7 @@
   color: white;
 }
 
-.nav-link:hover, .dropdown-toggle:hover {
+.nav-link:hover, .dropdown-toggle:hover, .settings-item:hover {
   color: gray;
   text-decoration: none;
 }
@@ -43,10 +43,25 @@
   color: black;
 }
 
+.settings-item {
+  color: black;
+}
+
+#form-button {
+  background-color: #fbde44;
+  font-weight: 600;
+}
+
+#form-button:hover {
+  background-color: #e1bc05;
+  font-weight: 600;
+}
+
 /* Apply Open Sans to Website */
 h1 {
+  display: block;
   font-family: "Open Sans";
-  font-size: 30px;
+  font-size: 2em;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
@@ -54,8 +69,9 @@ h1 {
 }
 
 h2 {
+  display: block;
   font-family: "Open Sans";
-  font-size: 22px;
+  font-size: 1.5em;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
@@ -63,8 +79,9 @@ h2 {
 }
 
 h3 {
+  display: block;
   font-family: "Open Sans";
-  font-size: 14px;
+  font-size: 1.17em;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;

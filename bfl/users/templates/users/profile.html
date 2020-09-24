@@ -7,15 +7,17 @@
       <div class="col-sm-11">
         <div class="media">
           <img class="rounded-circle account-img align-self-center mr-3" style="width: 10em; height: 10em;" src="{{ user.profile.image.url }}">
-          <div class="media-body" style="padding-top: 2em;">
-            <h1 class="account-heading mt-0">{{ user.first_name }} {{ user.last_name }}</h1>
+          <div class="media-body" style="padding-top: 2.5em;">
+            <h1 class="mt-0">
+              {{ user.first_name }} {{ user.last_name }}
+            </h1>
             <h3 class="text-secondary">@{{ user.username }}</h3>
             <h3 class="text-secondary">{{ user.email }}</h3>
           </div>
         </div>
       </div>
       <div class="col-sm-1">
-        <a class="btn btn-secondary" href="{% url 'edit_profile' %}" role="button">Edit</a>
+        <a class="btn btn-secondary" href="{% url 'edit_profile' %}?next={{ request.path }}" role="button">Edit</a>
       </div>
     </div>
   </div>

@@ -1,9 +1,15 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.contrib import messages
-from django.contrib.auth import authenticate, logout, login as dj_login
+from django.contrib.auth import (
+    update_session_auth_hash,
+    authenticate,
+    logout,
+    login as dj_login,
+)
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Profile
 
@@ -32,9 +38,9 @@ def login(request):
                         messages.success(request, "Login successful!")
                         return redirect('user_home')
                 else:
-                    messages.error(request, "Invalid username or password.")
+                    messages.warning(request, "Invalid username or password.")
             else:
-                messages.error(request, "Invalid username or password.")
+                messages.warning(request, "Invalid username or password.")
         form = AuthenticationForm()
         context = {
             'title': 'Login',
@@ -66,7 +72,7 @@ def register(request):
 @login_required
 def user_home(request):
     context = {
-        'title': 'User Home',
+        'title': 'Home',
     }
     return render(request, 'users/user-home.html', context)
 
@@ -88,8 +94,9 @@ def edit_profile(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
+            next = request.POST.get('next', reverse('profile'))
             messages.success(request, f'Your account has been updated!')
-            return redirect('profile')
+            return redirect(next) # request.META.get('HTTP_REFERER') (?)
     else:
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
@@ -100,3 +107,42 @@ def edit_profile(request):
         'profile_form': profile_form,
     }
     return render(request, 'users/edit-profile.html', context)
+
+@login_required
+def settings(request):
+    context = {
+        'title': 'Settings',
+    }
+    return render(request, 'users/settings.html', context)
+
+@login_required
+def deactivate(request):
+    if request.method == "POST":
+        user = request.user
+        user.is_active = False
+        user.save()
+        messages.success(request, f'{user.username} was successfully deactivated.')
+        return redirect('logout')
+    context = {
+        'title': 'Deactivate',
+    }
+    return render(request, 'users/deactivate.html', context)
+
+@login_required
+def change_password(request):
+    if request.method == "POST":
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Password was successfully changed.')
+            return redirect('settings')
+        else:
+            messages.warning(request, 'There was an error changing your password.')
+    else:
+        form = PasswordChangeForm(request.user)
+    context = {
+        'title': 'Change Password',
+        'form': form,
+    }
+    return render(request, 'users/change_password.html', context)
