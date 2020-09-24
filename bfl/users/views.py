@@ -23,7 +23,6 @@ def login(request):
     if request.user.is_authenticated:
         return redirect('user_home')
     else:
-        logout(request)
         username = ''
         password = ''
         if request.method == 'POST':

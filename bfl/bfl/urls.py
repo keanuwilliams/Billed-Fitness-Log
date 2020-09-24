@@ -16,7 +16,7 @@ urlpatterns = [
     path('', user_views.landing, name='landing'),
     path('admin/', admin.site.urls),
     path('register/', user_views.register, name='register'),
-    path('user-home/', user_views.user_home, name='user_home'),
+    path('home/', user_views.user_home, name='user_home'),
     path('profile/', user_views.profile, name='profile'),
     path('edit-profile/', user_views.edit_profile, name='edit_profile'),
     path('settings/', user_views.settings, name='settings'),

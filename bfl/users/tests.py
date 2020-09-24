@@ -97,7 +97,7 @@ class UsersViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         user = create_user()
         post = self.client.post(reverse('login'), {'username': user.username, 'password': password})
-        self.assertEqual(post.url, '/user-home/')
+        self.assertEqual(post.url, '/home/')
 
     def test_register_view(self):
         response = self.client.get(reverse('register'))
