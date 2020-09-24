@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth import (
     update_session_auth_hash,
@@ -93,8 +94,9 @@ def edit_profile(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
+            next = request.POST.get('next', reverse('profile'))
             messages.success(request, f'Your account has been updated!')
-            return redirect('profile') # request.META.get('HTTP_REFERER') (?)
+            return redirect(next) # request.META.get('HTTP_REFERER') (?)
     else:
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)

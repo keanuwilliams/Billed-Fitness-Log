@@ -19,7 +19,8 @@
         {{ profile_form | crispy }}
       </fieldset>
       <div class="form-group">
-        <a class="btn btn-lg btn-secondary" href="{% url 'profile' %}" role="button">Cancel</a>
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
+        <a class="btn btn-lg btn-secondary" href="{{ request.GET.next }}" role="button">Cancel</a>
         <button id="form-button" class="btn btn-lg" type="submit">Update</button>
       </div>
     </form>
