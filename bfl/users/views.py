@@ -13,7 +13,6 @@ from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Profile
 
-
 def landing(request):
     if request.user.is_authenticated:
         return redirect('user_home')

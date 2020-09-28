@@ -2,14 +2,14 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="container">
-  <div class="row">
+  <div class="row align-items-center">
     <div class="col-sm-9">
-      <h1 style="color: white; padding-bottom: 10px;">Create an Account</h1>
+      <h1 id="page-title">
+        Create an Account
+      </h1>
     </div>
-    <div class="col-sm-3">
-      <p style="color: white; padding: 10px 0 0 3em;">
-        (<a style="color: white;" href="{% url 'login' %}">Already have an account?</a>)
-      </p>
+    <div class="col-sm-3 text-right">
+      <a style="color: white;" href="{% url 'login' %}">Already have an account?</a>
     </div>
   </div>
   <div class="card">

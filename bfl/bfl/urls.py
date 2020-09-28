@@ -26,5 +26,5 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
 ]
 
-if settings.DEBUG:
+if settings.DEBUG: # For development
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
