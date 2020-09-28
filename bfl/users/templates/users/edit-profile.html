@@ -1,0 +1,29 @@
+{% extends "users/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container-fluid card" style="background-color: whitesmoke;">
+  <div class="card-body">
+    <div class="media">
+      <img class="rounded-circle account-img align-self-center mr-3" style="width: 10em; height: 10em;" src="{{ user.profile.image.url }}">
+      <div class="media-body" style="padding-top: 2.5em;">
+        <h1 class="account-heading mt-0">{{ user.first_name }} {{ user.last_name }}</h1>
+        <h3 class="text-secondary">@{{ user.username }}</h3>
+        <h3 class="text-secondary">{{ user.email }}</h3>
+      </div>
+    </div>
+    <form method="POST" enctype="multipart/form-data" style="padding-top: 2em">
+      {% csrf_token %}
+      <fieldset class="form-group">
+        <legend class="border-bottom mb-4">Profile Info</legend>
+        {{ user_form | crispy }}
+        {{ profile_form | crispy }}
+      </fieldset>
+      <div class="form-group">
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
+        <a class="btn btn-secondary" href="{{ request.GET.next }}" role="button">Cancel</a>
+        <button id="form-button" class="btn" type="submit">Update</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock content %}
