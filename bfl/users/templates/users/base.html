@@ -11,7 +11,7 @@
     integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
     <!-- Static CSS -->
-    <link rel="stylesheet" type="text/css" href="{% static 'users/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'users/main.css' %}?20200926">
 
     <!-- Fonts -->
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
@@ -29,10 +29,11 @@
   </head>
   <body>
 
+    <!-- The Site -->
     <div class="site">
       <!-- NavBar -->
       <header class="site-header">
-        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(0,0,0,0.25);">
+        <nav id="navbar" class="navbar navbar-expand-lg navbar-dark">
           <div class="container">
             {% if user.is_authenticated %}
               <a class="navbar-brand" href="{% url 'user_home' %}">
@@ -69,9 +70,9 @@
                     </a>
                     <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink">
                       <h6 class="dropdown-header">@{{ user.username }}</h6>
-                      <a class="dropdown-item" href="{% url 'profile' %}" style="color: black;">My Profile</a>
-                      <a class="dropdown-item" href="{% url 'settings' %}" style="color: black;">Settings</a>
-                      <a class="dropdown-item" href="{% url 'logout' %}" style="color: black;">Logout</a>
+                      <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+                      <a class="dropdown-item" href="{% url 'settings' %}">Settings</a>
+                      <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                     </div>
                   </li>
                 {% else %}
@@ -110,7 +111,7 @@
       </div>
 
       <!-- Footer -->
-      <footer id="footer" class="py-4 text-white-50" style="background-color: #28334aff;">
+      <footer id="footer" class="py-4 text-white-50">
         <ul class="nav justify-content-center">
           <li class="nav-item">
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">About Us</a>

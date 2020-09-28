@@ -9,15 +9,20 @@ class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
 
     def __init__(self, *args, **kwargs):
+        """
+        Used to overwrite the focus of the cursor when the user first opens the page.
+        """
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs.update({'autofocus': False})
         self.fields['first_name'].widget.attrs.update({'autofocus': True})
 
     def clean_email(self):
+        """
+        Checks the email if it is unique.
+        """
         email = self.cleaned_data.get('email')
-
         try:
-            user = User.objects.get(email=email)
+            user = User.objects.get(email=email) # Try to find a user with the email the user entered.
         except User.DoesNotExist:
             return email
         raise forms.ValidationError('The email address is already in use by another user.')
@@ -30,16 +35,18 @@ class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()
 
     def clean_email(self):
+        """
+        Checks if the user's email is unique.
+        """
         email = self.cleaned_data.get('email')
-
         try:
-            user = User.objects.get(email=email)
+            user = User.objects.get(email=email) # Try to find a user with the email the user entered.
         except User.DoesNotExist:
             return email
         else:
             if user == self.instance:
                 return email
-            else:
+            else: # Only raise the validation error if the user's entered email is not the same as the user's current email
                 raise forms.ValidationError('This email address is already in use.')
 
     class Meta:
