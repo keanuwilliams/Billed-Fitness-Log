@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import Http404
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth import (
@@ -75,36 +76,61 @@ def user_home(request):
     return render(request, 'users/user-home.html', context)
 
 @login_required
-def profile(request):
-    username = request.user.username
-    name = request.user.first_name + ' ' + request.user.last_name
-    title = name + ' (@' + username + ')'
-    context = {
-        'title': title,
-    }
-    return render(request, 'users/profile.html', context)
+def profile(request, username):
+    try:
+        object = Profile.objects.get(user=User.objects.get(username=username))
+    except User.DoesNotExist:
+        raise Http404
+    else:
+        username = object.user.username
+        name = object.user.first_name + ' ' + object.user.last_name
+        title = name + ' (@' + username + ')'
+        context = {
+            'title': title,
+            'object': object,
+        }
+        return render(request, 'users/profile.html', context)
 
 @login_required
-def edit_profile(request):
-    if request.method == 'POST':
-        user_form = UserUpdateForm(request.POST, instance=request.user)
-        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            next = request.POST.get('next', reverse('profile'))
-            messages.success(request, f'Your account has been updated!')
-            return redirect(next) # request.META.get('HTTP_REFERER') (?)
+def edit_profile(request, username):
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        raise Http404
     else:
-        user_form = UserUpdateForm(instance=request.user)
-        profile_form = ProfileUpdateForm(instance=request.user.profile)
+        if User.objects.get(username=username) != request.user:
+            return redirect('edit_profile', request.user.username)
+        else:
+            if request.method == 'POST':
+                username = request.user.username
+                user_form = UserUpdateForm(request.POST, instance=request.user)
+                profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+                if user_form.is_valid() and profile_form.is_valid():
+                    user_form.save()
+                    profile_form.save()
+                    messages.success(request, f'Your account has been updated!')
+                    referer = request.POST.get('next')
+                    if referer:
+                        if '/settings/' in referer:
+                            return redirect('settings')
+                        elif user_form.cleaned_data.get('username') == username:
+                            return redirect('profile', username)
+                        else:
+                            return redirect('profile', user_form.cleaned_data.get('username'))
+                    else:
+                        return redirect('profile', user_form.cleaned_data.get('username'))
+            else:
+                referer = request.META.get('HTTP_REFERER')
+                user_form = UserUpdateForm(instance=request.user)
+                profile_form = ProfileUpdateForm(instance=request.user.profile)
 
-    context = {
-        'title': 'Edit Profile',
-        'user_form': user_form,
-        'profile_form': profile_form,
-    }
-    return render(request, 'users/edit-profile.html', context)
+            context = {
+                'title': 'Edit Profile',
+                'user_form': user_form,
+                'profile_form': profile_form,
+                'referer': referer,
+            }
+            return render(request, 'users/edit-profile.html', context)
 
 @login_required
 def settings(request):

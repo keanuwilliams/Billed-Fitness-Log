@@ -6,18 +6,20 @@
     <div class="row">
       <div class="col-sm-11">
         <div class="media">
-          <img id="profile-image" class="rounded-circle account-img align-self-center mr-3" src="{{ user.profile.image.url }}">
+          <img id="profile-image" class="rounded-circle account-img align-self-center mr-3" src="{{ object.image.url }}">
           <div id="profile-info" class="media-body">
             <h1 class="mt-0">
-              {{ user.first_name }} {{ user.last_name }}
+              {{ object.user.first_name }} {{ object.user.last_name }}
             </h1>
-            <h3 class="text-secondary">@{{ user.username }}</h3>
-            <h3 class="text-secondary">{{ user.email }}</h3>
+            <h3 class="text-secondary">@{{ object.user.username }}</h3>
+            <h3 class="text-secondary">{{ object.user.email }}</h3>
           </div>
         </div>
       </div>
       <div class="col-sm-1">
-        <a class="btn btn-secondary" href="{% url 'edit_profile' %}?next={{ request.path }}" role="button">Edit</a>
+        {% if object.user == user %}
+        <a class="btn btn-secondary" href="{% url 'edit_profile' user.username %}" role="button">Edit</a>
+        {% endif %}
       </div>
     </div>
   </div>

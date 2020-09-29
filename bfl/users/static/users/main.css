@@ -62,8 +62,9 @@
   height: 10em;
   max-width: 10em;
   max-height: 10em;
-  min-width: 2em;
-  min-height: 2em;
+  min-width: 5em;
+  min-height: 5em;
+  margin-bottom: 1em;
 }
 
 #profile-info {
