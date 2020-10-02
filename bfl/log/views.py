@@ -76,6 +76,11 @@ class SessionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Session
     success_url = '/sessions/'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Delete ' + self.object.name
+        return context
+
     def test_func(self):
         session = self.get_object()
         if self.request.user == session.user or self.request.user.is_superuser:
