@@ -34,27 +34,37 @@
    background-color: rgba(0,0,0,0.25);
 }
 
+#session-nav {
+   background-color: rgba(0,0,0,0.25);
+   padding: 1em 0.5em 1em 0.5em;
+}
+
 /* Footer */
 #footer {
   background-color: #28334aff;
 }
 
 /* Page Contents */
-#navbar-link, .nav-link, .dropdown-toggle {
+#dropdownMenuLink, .nav-item, .nav-link {
   color: white;
 }
 
-#navbar-link:hover, .nav-link:hover, .dropdown-toggle:hover, .settings-item:hover {
+#dropdownMenuLink:hover, .nav-link:hover, .settings-item:hover, .session-title-link:hover {
   color: gray;
   text-decoration: none;
 }
 
-.navbar-link, .navbar-item, .dropdown-item {
+.navbar-link, .navbar-item, .dropdown-item, .settings-item {
   color: black;
 }
 
-.settings-item {
+.session-title-link {
   color: black;
+  font-size: 1em;
+}
+
+#session-menu {
+  padding-bottom: 3em;
 }
 
 #profile-image {
@@ -75,17 +85,17 @@
   padding-top: 2em;
 }
 
-#page-title {
+.page-title {
   color: white;
   padding-bottom: 1em;
 }
 
-#form-button {
+.form-button {
   background-color: #fbde44;
   font-weight: 600;
 }
 
-#form-button:hover {
+.form-button:hover {
   background-color: #e1bc05;
   font-weight: 600;
 }

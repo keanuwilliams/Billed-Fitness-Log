@@ -131,7 +131,7 @@ MEDIA_URL = '/media/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Used for redirect
-LOGIN_REDIRECT_URL = 'user_home'
+LOGIN_REDIRECT_URL = 'user-home'
 
 # Login page
 LOGIN_URL = 'login'

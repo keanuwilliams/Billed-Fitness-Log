@@ -2,10 +2,10 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="container">
-  <div class="row">
-    <div class="col-sm-9">
-      <h1 id="page-title">Change Password</h1>
-    </div>
+  <div class="row align-items-center">
+    <h1 class="page-title">
+      Workout Session
+    </h1>
   </div>
   <div class="card">
     <div class="card-body">
@@ -15,8 +15,8 @@
           {{ form | crispy }}
         </fieldset>
         <div class="form-group">
-          <a class="btn btn-secondary" href="{% url 'settings' %}" role="button">Cancel</a>
-          <button id="form-button" class="btn" type="submit">Update</button>
+          <a class="btn btn-secondary" href="{% url 'session-list' %}" role="button">Cancel</a>
+          <button class="btn form-button" type="submit">Submit</button>
         </div>
       </form>
     </div>

@@ -4,7 +4,8 @@ from .models import Profile
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.models import User
 
-password = 'mypassword' # Global password to be used in tests
+password = 'mypassword'  # Global password to be used in tests
+
 
 def create_user(first_name='Test', last_name='User', username='myuser', email='myemail@test.com'):
     """
@@ -16,6 +17,7 @@ def create_user(first_name='Test', last_name='User', username='myuser', email='m
     user.last_name = last_name
     return user
 
+
 def create_profile(user):
     """
     Create a profile for the given user.
@@ -24,49 +26,70 @@ def create_profile(user):
     profile.save()
     return profile
 
+
 class ProfileModelTests(TestCase):
     def test_profile_creation(self):
         """
         Test that a profile is properly created for a user.
         """
-        user = create_user() # Create the user
-        profile = create_profile(user=user) # Create the profile for the user
-        self.assertTrue(isinstance(profile, Profile)) # Make sure the profile is an instance of Profile
-        self.assertEqual(user.profile, profile) # Make sure that the profile is associated to the user
-        self.assertEqual(profile.__str__(), f'{user.username} Profile') # Make sure that the profile prints correctly
+        # Create the user
+        user = create_user()
+        # Create the profile for the user
+        profile = create_profile(user=user)
+        # Make sure the profile is an instance of Profile
+        self.assertTrue(isinstance(profile, Profile))
+        # Make sure that the profile is associated to the user
+        self.assertEqual(user.profile, profile)
+        # Make sure that the profile prints correctly
+        self.assertEqual(profile.__str__(), f'{user.username} Profile')
 
     def test_user_default_picture(self):
         """
         When a user creates an account and profile, the default profile picture should be "default.jpeg".
         """
-        user = create_user() # Create the user
-        profile = create_profile(user=user) # Create the profile for the user
-        self.assertEqual(user.profile.image.url, "/media/default.jpeg") # Make sure the default profile picture is the default.jpeg
+        # Create the user
+        user = create_user()
+        # Create the profile for the user
+        create_profile(user=user)
+        # Make sure the default profile picture is the default.jpeg
+        self.assertEqual(user.profile.image.url, "/media/default.jpeg")
+
 
 class UserCreationTests(TestCase):
 
     def test_register_user(self):
         """
-        Test that a user is able to create an account properly by checking if the user is in the database after the account is created.
+        Test that a user is able to create an account properly by checking if the user is in the database after the
+        account is created.
         """
-        my_user = create_user() # Create a user
-        my_user_from_database = User.objects.get(username="myuser") # Grab from the database the user
-        self.assertEqual(my_user, my_user_from_database) # Compare the users to see if they are the same
-        self.assertTrue(my_user.is_active) # Make sure when user is created they are equal
-        self.assertFalse(my_user.is_staff) # Make sure that the user does not have admin status
+        # Create a user
+        my_user = create_user()
+        # Grab from the database the user
+        my_user_from_database = User.objects.get(username="myuser")
+        # Compare the users to see if they are the same
+        self.assertEqual(my_user, my_user_from_database)
+        # Make sure when user is created they are equal
+        self.assertTrue(my_user.is_active)
+        # Make sure that the user does not have admin status
+        self.assertFalse(my_user.is_staff)
         self.assertFalse(my_user.is_superuser)
 
     def test_duplicate_user_username(self):
         """
         Test that a user is not able to create an account with the same username as a user that is already created.
         """
-        my_user = create_user() # Create an initial user
+        # Create an initial user
+        my_user = create_user()
         try:
-            my_second_user = create_user(first_name='John', last_name="Doe", email="johndoe@example.com") # Create a duplicate user with the same username
-        except Exception as e:
-            pass # if exception is raised, that is a good sign
+            # Create a duplicate user with the same username
+            my_second_user = create_user(first_name='John', last_name="Doe", email="johndoe@example.com")
+        except User.DoesNotExist:
+            # if exception is raised, that is a good sign
+            pass
         else:
-            self.assertNotEqual(my_user.username, my_second_user.username) # Check if the usernames for both of the users are equal if an error isnt raised
+            # Check if the usernames for both of the users are equal if an error isn't raised
+            self.assertNotEqual(my_user.username, my_second_user.username)
+
 
 class UserRegisterFormTests(TestCase):
 
@@ -74,8 +97,10 @@ class UserRegisterFormTests(TestCase):
         """
         Test that a user is not able to create an account with the same email as a user that is already created.
         """
-        my_user = create_user() # Create the first user
-        form_data = { # Add information to the form to test duplicate email
+        # Create the first user
+        my_user = create_user()
+        # Add information to the form to test duplicate email
+        form_data = {
             'first_name': 'John',
             'last_name': 'Doe',
             'username': 'johndoe',
@@ -84,14 +109,17 @@ class UserRegisterFormTests(TestCase):
             'password2': password,
         }
         form = UserRegisterForm(data=form_data)
-        self.assertFalse(form.is_valid()) # Should return false since there shouldnt be two users with the same email
+        # Should return false since there shouldn't be two users with the same email
+        self.assertFalse(form.is_valid())
 
     def test_duplicate_user_username(self):
         """
         Test that a user is not able to create an account with the same username as a user that is already created.
         """
-        my_user = create_user() # Create the first user
-        form_data = { # Add information to the form to test duplicate email
+        # Create the first user
+        my_user = create_user()
+        # Add information to the form to test duplicate email
+        form_data = {
             'first_name': 'John',
             'last_name': 'Doe',
             'username': my_user.username,
@@ -100,7 +128,9 @@ class UserRegisterFormTests(TestCase):
             'password2': password,
         }
         form = UserRegisterForm(data=form_data)
-        self.assertFalse(form.is_valid()) # Should return false since there shouldnt be two users with the same email
+        # Should return false since there shouldn't be two users with the same email
+        self.assertFalse(form.is_valid())
+
 
 class UserUpdateFormTests(TestCase):
 
@@ -108,8 +138,10 @@ class UserUpdateFormTests(TestCase):
         """
         Test that a user is not able to create an account with the same email as a user that is already created.
         """
-        my_user = create_user() # Create the first user
-        form_data = { # Add information to the form to test duplicate email
+        # Create the first user
+        my_user = create_user()
+        # Add information to the form to test duplicate email
+        form_data = {
             'first_name': 'John',
             'last_name': 'Doe',
             'username': 'johndoe',
@@ -118,14 +150,17 @@ class UserUpdateFormTests(TestCase):
             'password2': password,
         }
         form = UserUpdateForm(data=form_data)
-        self.assertFalse(form.is_valid()) # Should return false since there shouldnt be two users with the same email
+        # Should return false since there shouldn't be two users with the same email
+        self.assertFalse(form.is_valid())
 
     def test_duplicate_user_username(self):
         """
         Test that a user is not able to create an account with the same username as a user that is already created.
         """
-        my_user = create_user() # Create the first user
-        form_data = { # Add information to the form to test duplicate username
+        # Create the first user
+        my_user = create_user()
+        # Add information to the form to test duplicate username
+        form_data = {
             'first_name': 'John',
             'last_name': 'Doe',
             'username': my_user.username,
@@ -134,7 +169,9 @@ class UserUpdateFormTests(TestCase):
             'password2': password,
         }
         form = UserUpdateForm(data=form_data)
-        self.assertFalse(form.is_valid()) # Should return false since there should not be two users with the same username
+        # Should return false since there should not be two users with the same username
+        self.assertFalse(form.is_valid())
+
 
 class UsersViewsTests(TestCase):
 
@@ -142,36 +179,46 @@ class UsersViewsTests(TestCase):
         """
         An unauthenticated user will be able to access the landing page.
         """
-        response = self.client.get(reverse('landing')) # Landing page should be accessible as a unauthenticated user
+        # Landing page should be accessible as a unauthenticated user
+        response = self.client.get(reverse('landing'))
         self.assertEqual(response.status_code, 200)
 
     def test_authenticated_user_unable_to_access_unauthenticated_pages(self):
         """
         The user should be not be able to access the unauthenticated pages once they are logged in.
         """
-        my_user = create_user() # Create a user
-        self.client.login(username=my_user.username, password=password) # Log the user in
-        response = self.client.get(reverse('landing')) # Test if the user can reach the unauthenticated pages
-        self.assertFalse(response.status_code==200) # They should not be able to
+        # Create a user
+        my_user = create_user()
+        # Log the user in
+        self.client.login(username=my_user.username, password=password)
+        # Test if the user can reach the unauthenticated pages
+        response = self.client.get(reverse('landing'))
+        self.assertFalse(response.status_code == 200)
         response = self.client.get(reverse('login'))
-        self.assertFalse(response.status_code==200)
+        self.assertFalse(response.status_code == 200)
         response = self.client.get(reverse('register'))
-        self.assertFalse(response.status_code==200)
+        self.assertFalse(response.status_code == 200)
 
     def test_login_view(self):
         """
         Test if the user is able to login properly.
         """
-        response = self.client.get(reverse('login')) # Make sure the unauthenticated user is able to access it
+        # Make sure the unauthenticated user is able to access it
+        response = self.client.get(reverse('login'))
         self.assertEqual(response.status_code, 200)
-        user = create_user() # Create a user to log in
-        post = self.client.post(reverse('login'), {'username': user.username, 'password': password}) # Log the user in
-        self.assertEqual(post.url, reverse('user_home')) # Should redirect to user home page
+        # Create a user to log in
+        user = create_user()
+        # Log the user in
+        post = self.client.post(reverse('login'), {'username': user.username, 'password': password})
+        # Should redirect to user home page
+        self.assertEqual(post.url, reverse('user-home'))
 
     def test_register_view(self):
-        response = self.client.get(reverse('register')) # Make sure the unauthenticated user is able to access it
+        # Make sure the unauthenticated user is able to access it
+        response = self.client.get(reverse('register'))
         self.assertEqual(response.status_code, 200)
-        post = self.client.post(reverse('register'), { # Create the user using the form
+        # Create the user using the form
+        post = self.client.post(reverse('register'), {
             'first_name': 'John',
             'last_name': 'Doe',
             'username': 'johndoe',
@@ -179,69 +226,101 @@ class UsersViewsTests(TestCase):
             'password1': password+'#01',
             'password2': password+'#01',
         })
-        self.assertEqual(post.url, reverse('login')) # When user is successfully created it redirects to login page
-        self.client.login(username='johndoe', password=password+'#01') # Log the user in
-        response = self.client.get(reverse('user_home')) # Should be able to access user home if successfully created
+        # When user is successfully created it redirects to login page
+        self.assertEqual(post.url, reverse('login'))
+        # Log the user in
+        self.client.login(username='johndoe', password=password+'#01')
+        # Should be able to access user home if successfully created
+        response = self.client.get(reverse('user-home'))
         self.assertEqual(response.status_code, 200)
 
     def test_authenticated_user_able_to_access_user_home(self):
         """
         The user should be able to access an the user home once they are logged in.
         """
-        my_user = create_user() # Create the user
-        self.client.login(username=my_user.username, password=password) # Log the user in
-        response = self.client.get(reverse('user_home')) # Try to reach the user home page
-        self.assertEqual(response.status_code, 200) # Should be able to reach it
+        # Create the user
+        my_user = create_user()
+        # Log the user in
+        self.client.login(username=my_user.username, password=password)
+        # Try to reach the user home page
+        response = self.client.get(reverse('user-home'))
+        # Should be able to reach it
+        self.assertEqual(response.status_code, 200)
 
     def test_unauthenticated_user_unable_to_access_user_home(self):
         """
         An unauthenticated user should not be able to access the user home.
         """
-        response = self.client.get(reverse('user_home')) # Try to reach the user home page as an unauthenticated user
-        self.assertFalse(response.status_code==200) # Should not work
+        # Try to reach the user home page as an unauthenticated user
+        response = self.client.get(reverse('user-home'))
+        # Should not work
+        self.assertFalse(response.status_code == 200)
 
     def test_authenticated_user_able_to_access_user_profile(self):
         """
         The user should be able to access their profile once they are logged in.
         """
-        my_user = create_user() # Create the user
-        create_profile(user=my_user) # Create the profile for that user
-        self.client.login(username=my_user.username, password=password) # Log the user in
-        response = self.client.get(reverse('profile')) # Get the profile page for the user
-        self.assertEqual(response.status_code, 200) # Should get it successfully
-        response = self.client.get(reverse('edit_profile')) # It should also work for the edit profile page
+        # Create the user
+        my_user = create_user()
+        # Create the profile for that user
+        create_profile(user=my_user)
+        # Log the user in
+        self.client.login(username=my_user.username, password=password)
+        # Get the profile page for the user
+        response = self.client.get(reverse('profile', kwargs={'username': my_user.username}))
+        # Should get it successfully
+        self.assertEqual(response.status_code, 200)
+        # It should also work for the edit profile page
+        response = self.client.get(reverse('edit-profile', kwargs={'username': my_user.username}))
         self.assertEqual(response.status_code, 200)
 
     def test_unauthenticated_user_unable_to_access_user_profile(self):
         """
         An unauthenticated user should not be able to access the user profile.
         """
-        response = self.client.get(reverse('profile')) # Get the profile page
-        self.assertFalse(response.status_code==200) # Should redirect since the user is not logged in
-        response = self.client.get(reverse('edit_profile')) # It should also apply to the edit profile page
-        self.assertFalse(response.status_code==200)
+        # Create a user and profile to test an unauthenticated user trying to access the user's profile
+        my_user = create_user()
+        create_profile(user=my_user)
+        # Get the profile page
+        response = self.client.get(reverse('profile', kwargs={'username': my_user.username}))
+        # Should redirect since the user is not logged in
+        self.assertFalse(response.status_code == 200)
+        # It should also apply to the edit profile page
+        response = self.client.get(reverse('edit-profile', kwargs={'username': my_user.username}))
+        self.assertFalse(response.status_code == 200)
 
     def test_authenticated_user_able_to_access_user_settings(self):
         """
         The user should be able to access their settings once they are logged in.
         """
-        my_user = create_user() # Create the user
-        create_profile(user=my_user) # Create their profile
-        self.client.login(username=my_user.username, password=password) # Log the user in
-        response = self.client.get(reverse('settings')) # Get the settings page for the user
-        self.assertEqual(response.status_code, 200) # Should be able to access it
-        response = self.client.get(reverse('change_password')) # It should also apply to the change password page
+        # Create the user
+        my_user = create_user()
+        # Create their profile
+        create_profile(user=my_user)
+        # Log the user in
+        self.client.login(username=my_user.username, password=password)
+        # Get the settings page for the user
+        response = self.client.get(reverse('settings'))
+        # Should be able to access it
         self.assertEqual(response.status_code, 200)
-        response = self.client.get(reverse('change_password')) # It should also apply to the deactivate page
+        # It should also apply to the change password page
+        response = self.client.get(reverse('change-password'))
+        self.assertEqual(response.status_code, 200)
+        # It should also apply to the deactivate page
+        response = self.client.get(reverse('change-password'))
         self.assertEqual(response.status_code, 200)
 
     def test_unauthenticated_user_unable_to_access_user_settings(self):
         """
         An unauthenticated user should not be able to access the user settings.
         """
-        response = self.client.get(reverse('settings')) # Get the settings page
-        self.assertFalse(response.status_code==200) # Should redirect since the user is not logged in
-        response = self.client.get(reverse('change_password')) # It should also apply to the change password page
-        self.assertFalse(response.status_code==200)
-        response = self.client.get(reverse('deactivate')) # It should also apply to the deactivate page
-        self.assertFalse(response.status_code==200)
+        # Get the settings page
+        response = self.client.get(reverse('settings'))
+        # Should redirect since the user is not logged in
+        self.assertFalse(response.status_code == 200)
+        # It should also apply to the change password page
+        response = self.client.get(reverse('change-password'))
+        self.assertFalse(response.status_code == 200)
+        # It should also apply to the deactivate page
+        response = self.client.get(reverse('deactivate'))
+        self.assertFalse(response.status_code == 200)

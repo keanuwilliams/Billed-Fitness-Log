@@ -5,7 +5,6 @@ from django.contrib import messages
 from django.contrib.auth import (
     update_session_auth_hash,
     authenticate,
-    logout,
     login as dj_login,
 )
 from django.contrib.auth.models import User
@@ -14,14 +13,16 @@ from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Profile
 
+
 def landing(request):
     if request.user.is_authenticated:
-        return redirect('user_home')
+        return redirect('user-home')
     return render(request, 'users/landing.html')
+
 
 def login(request):
     if request.user.is_authenticated:
-        return redirect('user_home')
+        return redirect('user-home')
     else:
         username = ''
         password = ''
@@ -35,7 +36,7 @@ def login(request):
                     if user.is_active:
                         dj_login(request, user)
                         messages.success(request, "Login successful!")
-                        return redirect('user_home')
+                        return redirect('user-home')
                 else:
                     messages.warning(request, "Invalid username or password.")
             else:
@@ -47,9 +48,10 @@ def login(request):
         }
         return render(request, 'users/login.html', context)
 
+
 def register(request):
     if request.user.is_authenticated:
-        return redirect('user_home')
+        return redirect('user-home')
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
@@ -68,6 +70,7 @@ def register(request):
     }
     return render(request, 'users/register.html', context)
 
+
 @login_required
 def user_home(request):
     context = {
@@ -75,19 +78,20 @@ def user_home(request):
     }
     return render(request, 'users/user-home.html', context)
 
+
 @login_required
 def profile(request, username):
     try:
-        object = Profile.objects.get(user=User.objects.get(username=username))
+        profile = Profile.objects.get(user=User.objects.get(username=username))
     except User.DoesNotExist:
         raise Http404
     else:
-        username = object.user.username
-        name = object.user.first_name + ' ' + object.user.last_name
+        username = profile.user.username
+        name = profile.user.first_name + ' ' + profile.user.last_name
         title = name + ' (@' + username + ')'
         context = {
             'title': title,
-            'object': object,
+            'object': profile,
         }
         return render(request, 'users/profile.html', context)
 
@@ -99,7 +103,7 @@ def edit_profile(request, username):
         raise Http404
     else:
         if User.objects.get(username=username) != request.user:
-            return redirect('edit_profile', request.user.username)
+            return redirect('edit-profile', request.user.username)
         else:
             if request.method == 'POST':
                 username = request.user.username
@@ -169,4 +173,4 @@ def change_password(request):
         'title': 'Change Password',
         'form': form,
     }
-    return render(request, 'users/change_password.html', context)
+    return render(request, 'users/change-password.html', context)

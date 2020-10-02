@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
 
+
 class UserRegisterForm(UserCreationForm):
     first_name = forms.CharField(label="First Name", max_length=30)
     last_name = forms.CharField(label="Last Name", max_length=30)
@@ -22,7 +23,7 @@ class UserRegisterForm(UserCreationForm):
         """
         email = self.cleaned_data.get('email')
         try:
-            user = User.objects.get(email=email) # Try to find a user with the email the user entered.
+            User.objects.get(email=email)  # Try to find a user with the email the user entered.
         except User.DoesNotExist:
             return email
         raise forms.ValidationError('The email address is already in use by another user.')
@@ -30,6 +31,7 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
+
 
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()
@@ -40,18 +42,20 @@ class UserUpdateForm(forms.ModelForm):
         """
         email = self.cleaned_data.get('email')
         try:
-            user = User.objects.get(email=email) # Try to find a user with the email the user entered.
+            user = User.objects.get(email=email)  # Try to find a user with the email the user entered.
         except User.DoesNotExist:
             return email
         else:
             if user == self.instance:
                 return email
-            else: # Only raise the validation error if the user's entered email is not the same as the user's current email
+            else:
+                # Raise the validation error if the user's entered email is not the same as the user's current email
                 raise forms.ValidationError('This email address is already in use.')
 
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email']
+
 
 class ProfileUpdateForm(forms.ModelForm):
 

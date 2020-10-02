@@ -1,0 +1,45 @@
+{% extends "users/base.html" %}
+{% block content %}
+<div class="container-fluid">
+  <h1 class="page-title">
+    My Sessions
+  </h1>
+  <div class="row">
+    <div class="col-md-3" id="session-menu">
+      <ul class="nav flex-column" id="session-nav">
+        <li class="nav-item">
+          <h5 class="nav-link" style="color: white;">Menu</h5>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'session-create' %}">Add Session</a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-9" id="sessions">
+      {% if object_list.count == 0 %}
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <h1 style="color: white;">No Workout Sessions to Display.</h1>
+            <h3 style="color: white; margin-top: 1em;">Get started by adding workout sessions!</h3>
+          </div>
+        </div>
+      {% else %}
+        {% for session in object_list %}
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body">
+                  <h4>
+                    <a class="session-title-link" href="{% url 'session-detail' session.id %}">{{ session.name }}</a>
+                  </h4>
+                  <h6 class="card-subtitle mb-2 text-muted">{{ session.date | date:"F d, Y" }}</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock content %}
