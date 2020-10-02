@@ -15,7 +15,7 @@
           {{ form | crispy }}
         </fieldset>
         <div class="form-group">
-          <a class="btn btn-secondary" href="{% url 'session-list' %}" role="button">Cancel</a>
+          <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}" role="button">Cancel</a>
           <button class="btn form-button" type="submit">Submit</button>
         </div>
       </form>
