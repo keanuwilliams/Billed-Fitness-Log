@@ -45,6 +45,7 @@ class SessionCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'New Session'
+        context['page_title'] = 'New Workout Session'
         return context
 
     def form_valid(self, form):
@@ -59,6 +60,7 @@ class SessionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Edit ' + self.object.name
+        context['page_title'] = self.object.name
         return context
 
     def form_valid(self, form):
