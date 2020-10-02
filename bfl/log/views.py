@@ -7,6 +7,7 @@ from django.views.generic import (
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Session
+from .forms import SessionForm
 
 
 class SessionListView(ListView):
@@ -40,7 +41,7 @@ class SessionDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
 class SessionCreateView(LoginRequiredMixin, CreateView):
     model = Session
-    fields = ['name']
+    form_class = SessionForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -55,7 +56,7 @@ class SessionCreateView(LoginRequiredMixin, CreateView):
 
 class SessionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Session
-    fields = ['name']
+    form_class = SessionForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

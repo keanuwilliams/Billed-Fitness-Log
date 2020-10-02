@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'log.apps.LogConfig',
     'django_cleanup',
     'crispy_forms',
+    'flatpickr',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
