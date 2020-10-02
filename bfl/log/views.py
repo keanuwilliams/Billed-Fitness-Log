@@ -10,7 +10,7 @@ from .models import Session
 from .forms import SessionForm
 
 
-class SessionListView(ListView):
+class SessionListView(LoginRequiredMixin, ListView):
     model = Session
     ordering = '-date'
 
@@ -22,6 +22,25 @@ class SessionListView(ListView):
     def get_queryset(self):
         queryset = Session.objects.filter(user=self.request.user)
         return queryset.order_by(self.ordering)
+
+
+class SessionAdminListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Session
+    ordering = '-date'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'My Sessions'
+        return context
+
+    def get_queryset(self):
+        queryset = Session.objects.all()
+        return queryset.order_by(self.ordering)
+
+    def test_func(self):
+        if self.request.user.is_superuser:
+            return True
+        return False
 
 
 class SessionDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):

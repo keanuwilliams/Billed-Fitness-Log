@@ -49,7 +49,7 @@
   color: white;
 }
 
-#dropdownMenuLink:hover, .nav-link:hover, .settings-item:hover, .session-title-link:hover {
+#dropdownMenuLink:hover, .nav-link:hover, .settings-item:hover, .session-title-link:hover, .session-user-link:hover {
   color: gray;
   text-decoration: none;
 }
@@ -58,9 +58,20 @@
   color: black;
 }
 
-.session-title-link {
+.session-title-link, .session-user-link {
   color: black;
   font-size: 1em;
+}
+
+.session-detail-user-link {
+  font-size: .75em;
+  color: #fbde44;
+  padding: -3em 3em 0 0;
+}
+
+.session-detail-user-link:hover {
+  color: #e1bc05;
+  text-decoration: none;
 }
 
 #session-menu {

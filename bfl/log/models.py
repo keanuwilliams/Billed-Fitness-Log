@@ -18,7 +18,7 @@ class Session(models.Model):
 
 
 class Workout(models.Model):
-    name = models.CharField(max_length=100, default="Workout")
+    name = models.CharField(max_length=100)
     session = models.ForeignKey(Session, on_delete=models.CASCADE)
 
     def __str__(self):

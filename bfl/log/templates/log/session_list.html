@@ -11,8 +11,19 @@
           <h5 class="nav-link" style="color: white;">Menu</h5>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="{% url 'session-list' %}">Home</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="{% url 'session-create' %}">Add Session</a>
         </li>
+        {% if user.is_superuser %}
+          <li class="nav-item">
+            <h5 class="nav-link" style="color: white; padding-top: 1em;">Admin Menu</h5>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'session-admin-list' %}">View All Sessions</a>
+          </li>
+        {% endif %}
       </ul>
     </div>
     <div class="col-md-9" id="sessions">
@@ -30,8 +41,17 @@
               <div class="card">
                 <div class="card-body">
                   <h4>
-                    <a class="session-title-link" href="{% url 'session-detail' session.id %}">{{ session.name }}</a>
+                    <a class="session-title-link" href="{% url 'session-detail' session.id %}">
+                      {{ session.name }}
+                    </a>
                   </h4>
+                  {% if user.is_superuser and session.user != user %}
+                  <h6>
+                    <a class="session-user-link" href="{% url 'profile' session.user.username %}">
+                      @{{ session.user }}
+                    </a>
+                  </h6>
+                  {% endif %}
                   <h6 class="card-subtitle mb-2 text-muted">{{ session.date | date:"F d, Y" }}</h6>
                 </div>
               </div>
