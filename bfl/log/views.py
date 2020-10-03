@@ -7,35 +7,35 @@ from django.views.generic import (
     DeleteView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Session
-from .forms import SessionForm
+from .models import Workout
+from .forms import WorkoutForm
 
 
-class SessionListView(LoginRequiredMixin, ListView):
-    model = Session
+class WorkoutListView(LoginRequiredMixin, ListView):
+    model = Workout
     ordering = '-date'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'My Sessions'
+        context['title'] = 'My Workouts'
         return context
 
     def get_queryset(self):
-        queryset = Session.objects.filter(user=self.request.user)
+        queryset = Workout.objects.filter(user=self.request.user)
         return queryset.order_by(self.ordering)
 
 
-class SessionAdminListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    model = Session
+class WorkoutAdminListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Workout
     ordering = '-date'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'My Sessions'
+        context['title'] = 'My Workouts'
         return context
 
     def get_queryset(self):
-        queryset = Session.objects.all()
+        queryset = Workout.objects.all()
         return queryset.order_by(self.ordering)
 
     def test_func(self):
@@ -44,36 +44,36 @@ class SessionAdminListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return False
 
 
-class SessionDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
-    model = Session
+class WorkoutDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = Workout
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.object.name
         if '/new/' in self.request.META.get('HTTP_REFERER') or '/edit/' in self.request.META.get('HTTP_REFERER'):
             if self.request.user.is_superuser:
-                context['referer'] = reverse('session-admin-list')
+                context['referer'] = reverse('workout-admin-list')
             else:
-                context['referer'] = reverse('session-list')
+                context['referer'] = reverse('workout-list')
         else:
             context['referer'] = self.request.META.get('HTTP_REFERER')
         return context
 
     def test_func(self):
-        session = self.get_object()
-        if self.request.user == session.user or self.request.user.is_superuser:
+        workout = self.get_object()
+        if self.request.user == workout.user or self.request.user.is_superuser:
             return True
         return False
 
 
-class SessionCreateView(LoginRequiredMixin, CreateView):
-    model = Session
-    form_class = SessionForm
+class WorkoutCreateView(LoginRequiredMixin, CreateView):
+    model = Workout
+    form_class = WorkoutForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'New Session'
-        context['page_title'] = 'New Workout Session'
+        context['title'] = 'New Workout'
+        context['page_title'] = 'New Workout'
         return context
 
     def form_valid(self, form):
@@ -81,9 +81,9 @@ class SessionCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class SessionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Session
-    form_class = SessionForm
+class WorkoutUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Workout
+    form_class = WorkoutForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -96,15 +96,15 @@ class SessionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super().form_valid(form)
 
     def test_func(self):
-        session = self.get_object()
-        if self.request.user == session.user or self.request.user.is_superuser:
+        workout = self.get_object()
+        if self.request.user == workout.user or self.request.user.is_superuser:
             return True
         return False
 
 
-class SessionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = Session
-    success_url = '/sessions/'
+class WorkoutDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Workout
+    success_url = '/workouts/'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -112,8 +112,8 @@ class SessionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return context
 
     def test_func(self):
-        session = self.get_object()
-        if self.request.user == session.user or self.request.user.is_superuser:
+        workout = self.get_object()
+        if self.request.user == workout.user or self.request.user.is_superuser:
             return True
         return False
 

@@ -4,10 +4,10 @@
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
-                <h1 style="color: white;">Are you sure you want to delete the session "{{ object.name }}"</h1>
+                <h1 style="color: white;">Are you sure you want to delete the workout "{{ object.name }}"</h1>
             </fieldset>
             <div class="form-group">
-                <a class="btn btn-lg btn-secondary" href="{% url 'session-detail' object.id %}">Cancel</a>
+                <a class="btn btn-lg btn-secondary" href="{% url 'workout-detail' object.id %}">Cancel</a>
                 <button class="btn btn-lg btn-danger" type="submit">Delete</button>
             </div>
         </form>

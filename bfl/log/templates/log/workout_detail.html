@@ -9,20 +9,20 @@
             <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
           </svg>
         </a>
-        {{ session.name }}
-        <small class="text-muted">{{ session.date | date:"F d, Y" }}</small>
+        {{ workout.name }}
+        <small class="text-muted">{{ workout.date | date:"F d, Y" }}</small>
       </h1>
     </div>
     <div class="col-sm-2">
-      {% if session.user == user %}
+      {% if workout.user == user %}
         <input type="hidden" name="next" value="{{ referer }}">
-        <a class="btn btn-secondary" href="{% url 'session-update' session.id %}" role="button">Edit</a>
-        <a class="btn btn-danger" href="{% url 'session-delete' session.id %}" role="button">Delete</a>
-      {% elif user.is_superuser and session.user != user %}
+        <a class="btn btn-secondary" href="{% url 'workout-update' workout.id %}" role="button">Edit</a>
+        <a class="btn btn-danger" href="{% url 'workout-delete' workout.id %}" role="button">Delete</a>
+      {% elif user.is_superuser and workout.user != user %}
       <!-- Will replace once workouts are implemented -->
         <h2 style="color: white;">
-          <a class="session-detail-user-link" href="{% url 'profile' session.user.username %}">
-            @{{ session.user }}
+          <a class="workout-detail-user-link" href="{% url 'profile' workout.user.username %}">
+            @{{ workout.user }}
           </a>
         </h2>
       {% endif %}

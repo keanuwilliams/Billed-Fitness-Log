@@ -2,63 +2,63 @@
 {% block content %}
 <div class="container-fluid">
   <h1 class="page-title">
-    My Sessions
+    My Workouts
   </h1>
   <div class="row">
-    <div class="col-md-3" id="session-menu">
-      <ul class="nav flex-column" id="session-nav">
+    <div class="col-md-3" id="workout-menu">
+      <ul class="nav flex-column" id="workout-nav">
         <li class="nav-item">
           <h5 class="nav-link" style="color: white;">Menu</h5>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'session-list' %}">Home</a>
+          <a class="nav-link" href="{% url 'workout-list' %}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'session-create' %}">Add Session</a>
+          <a class="nav-link" href="{% url 'workout-create' %}">Add Workout</a>
         </li>
         {% if user.is_superuser %}
           <li class="nav-item">
             <h5 class="nav-link" style="color: white; padding-top: 1em;">Admin Menu</h5>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'session-admin-list' %}">View All Sessions</a>
+            <a class="nav-link" href="{% url 'workout-admin-list' %}">View All Workouts</a>
           </li>
         {% endif %}
       </ul>
     </div>
-    <div class="col-md-9" id="sessions">
+    <div class="col-md-9" id="workouts">
       {% if object_list.count == 0 %}
         <div class="row">
           <div class="col-md-12 text-center">
-            <h1 style="color: white;">No Workout Sessions to Display.</h1>
-            <h3 style="color: white; margin-top: 1em;">Get started by adding workout sessions!</h3>
+            <h1 style="color: white;">No Workouts to Display.</h1>
+            <h3 style="color: white; margin-top: 1em;">Get started by adding workout workouts!</h3>
           </div>
         </div>
       {% else %}
-        {% for session in object_list %}
+        {% for workout in object_list %}
           <div class="row">
             <div class="col-sm-12">
               <div class="card">
                 <div class="card-body">
                   <h4>
-                    <a class="session-title-link" href="{% url 'session-detail' session.id %}">
-                      {{ session.name }}
+                    <a class="workout-title-link" href="{% url 'workout-detail' workout.id %}">
+                      {{ workout.name }}
                     </a>
                   </h4>
-                  {% if user.is_superuser and session.user != user %}
+                  {% if user.is_superuser and workout.user != user %}
                   <h6>
-                    <a class="session-user-link" href="{% url 'profile' session.user.username %}">
-                      @{{ session.user }}
+                    <a class="workout-user-link" href="{% url 'profile' workout.user.username %}">
+                      @{{ workout.user }}
                     </a>
                   </h6>
                   {% endif %}
-                  <h6 class="card-subtitle mb-2 text-muted">{{ session.date | date:"F d, Y" }}</h6>
-                  {% if session.user == user %}
+                  <h6 class="card-subtitle mb-2 text-muted">{{ workout.date | date:"F d, Y" }}</h6>
+                  {% if workout.user == user %}
                     <div class="btn-group mr-auto">
-                      <a class="btn btn-secondary" href="{% url 'session-update' session.id %}" role="button">
+                      <a class="btn btn-secondary" href="{% url 'workout-update' workout.id %}" role="button">
                         Edit
                       </a>
-                      <a class="btn btn-danger" href="{% url 'session-delete' session.id %}" role="button">
+                      <a class="btn btn-danger" href="{% url 'workout-delete' workout.id %}" role="button">
                         Delete
                       </a>
                     </div>

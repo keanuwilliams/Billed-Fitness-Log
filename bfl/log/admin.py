@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Session
+from .models import Workout
 
 
-class SessionAdmin(admin.ModelAdmin):
+class WorkoutAdmin(admin.ModelAdmin):
     list_display = ('name', 'date', 'user',)
 
 
-admin.site.register(Session, SessionAdmin)
+admin.site.register(Workout, WorkoutAdmin)

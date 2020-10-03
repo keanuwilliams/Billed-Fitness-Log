@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 
 
-class Session(models.Model):
+class Workout(models.Model):
     name = models.CharField(max_length=100)
     date = models.DateTimeField(default=timezone.now)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -13,4 +13,4 @@ class Session(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('session-detail', args=[str(self.id)])
+        return reverse('workout-detail', args=[str(self.id)])

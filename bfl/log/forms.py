@@ -1,11 +1,11 @@
 from django import forms
 from flatpickr import DatePickerInput
-from .models import Session
+from .models import Workout
 
 
-class SessionForm(forms.ModelForm):
+class WorkoutForm(forms.ModelForm):
     date = forms.DateField(widget=DatePickerInput(options={'maxDate': 'today'}))
 
     class Meta:
-        model = Session
+        model = Workout
         fields = ['name', 'date']

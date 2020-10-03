@@ -1,19 +1,19 @@
 from django.urls import path
 from .views import (
-    SessionListView,
-    SessionAdminListView,
-    SessionDetailView,
-    SessionCreateView,
-    SessionUpdateView,
-    SessionDeleteView,
+    WorkoutListView,
+    WorkoutAdminListView,
+    WorkoutDetailView,
+    WorkoutCreateView,
+    WorkoutUpdateView,
+    WorkoutDeleteView,
 )
 from . import views
 
 urlpatterns = [
-    path('', SessionListView.as_view(), name='session-list'),
-    path('all/', SessionAdminListView.as_view(), name='session-admin-list'),
-    path('new/', SessionCreateView.as_view(), name='session-create'),
-    path('<int:pk>/', SessionDetailView.as_view(), name='session-detail'),
-    path('<int:pk>/edit/', SessionUpdateView.as_view(), name='session-update'),
-    path('<int:pk>/delete/', SessionDeleteView.as_view(), name='session-delete'),
+    path('', WorkoutListView.as_view(), name='workout-list'),
+    path('all/', WorkoutAdminListView.as_view(), name='workout-admin-list'),
+    path('new/', WorkoutCreateView.as_view(), name='workout-create'),
+    path('<int:pk>/', WorkoutDetailView.as_view(), name='workout-detail'),
+    path('<int:pk>/edit/', WorkoutUpdateView.as_view(), name='workout-update'),
+    path('<int:pk>/delete/', WorkoutDeleteView.as_view(), name='workout-delete'),
 ]

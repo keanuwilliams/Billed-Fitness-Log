@@ -25,7 +25,7 @@ urlpatterns = [
     path('workout-info/edit', user_views.edit_workout_info, name='edit-workout-info'),
     path('login/', user_views.login, name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
-    path('sessions/', include('log.urls')),
+    path('workouts/', include('log.urls')),
 ]
 
 if settings.DEBUG: # For development
