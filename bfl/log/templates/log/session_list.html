@@ -53,6 +53,16 @@
                   </h6>
                   {% endif %}
                   <h6 class="card-subtitle mb-2 text-muted">{{ session.date | date:"F d, Y" }}</h6>
+                  {% if session.user == user %}
+                    <div class="btn-group mr-auto">
+                      <a class="btn btn-secondary" href="{% url 'session-update' session.id %}" role="button">
+                        Edit
+                      </a>
+                      <a class="btn btn-danger" href="{% url 'session-delete' session.id %}" role="button">
+                        Delete
+                      </a>
+                    </div>
+                  {% endif %}
                 </div>
               </div>
             </div>

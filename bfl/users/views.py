@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.http import Http404
-from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth import (
     update_session_auth_hash,
@@ -57,8 +56,8 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            profile = Profile(user=User.objects.get(username=username))
-            profile.save()
+            user_profile = Profile(user=User.objects.get(username=username))
+            user_profile.save()
             messages.success(request, f'Account successfully created for {username}!')
             return redirect('login')
     else:
@@ -82,16 +81,16 @@ def user_home(request):
 @login_required
 def profile(request, username):
     try:
-        profile = Profile.objects.get(user=User.objects.get(username=username))
+        user_profile = Profile.objects.get(user=User.objects.get(username=username))
     except User.DoesNotExist:
         raise Http404
     else:
-        username = profile.user.username
-        name = profile.user.first_name + ' ' + profile.user.last_name
+        username = user_profile.user.username
+        name = user_profile.user.first_name + ' ' + user_profile.user.last_name
         title = name + ' (@' + username + ')'
         context = {
             'title': title,
-            'object': profile,
+            'object': user_profile,
         }
         return render(request, 'users/profile.html', context)
 
@@ -99,7 +98,7 @@ def profile(request, username):
 @login_required
 def edit_profile(request, username):
     try:
-        user = User.objects.get(username=username)
+        User.objects.get(username=username)
     except User.DoesNotExist:
         raise Http404
     else:

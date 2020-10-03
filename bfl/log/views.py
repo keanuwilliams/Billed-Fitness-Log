@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django.views.generic import (
     ListView,
     DetailView,
@@ -49,6 +50,13 @@ class SessionDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.object.name
+        if '/new/' in self.request.META.get('HTTP_REFERER') or '/edit/' in self.request.META.get('HTTP_REFERER'):
+            if self.request.user.is_superuser:
+                context['referer'] = reverse('session-admin-list')
+            else:
+                context['referer'] = reverse('session-list')
+        else:
+            context['referer'] = self.request.META.get('HTTP_REFERER')
         return context
 
     def test_func(self):
