@@ -16,7 +16,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # default to the default.jpeg picture when profile is created
     image = models.ImageField(default='default.jpeg', upload_to='profile_pics')
-    user_weight = models.FloatField(default=0)
+    weight = models.FloatField(default=0)
+    goal_weight = models.FloatField(default=0)
     weight_units = models.CharField(max_length=1, choices=WEIGHTS, default='P')
     distance_units = models.CharField(max_length=1, choices=DISTANCES, default='M')
 

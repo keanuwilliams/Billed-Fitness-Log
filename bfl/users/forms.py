@@ -68,4 +68,4 @@ class EditWorkoutInfoForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['user_weight', 'weight_units', 'distance_units']
+        fields = ['weight', 'goal_weight', 'weight_units', 'distance_units']

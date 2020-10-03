@@ -15,23 +15,3 @@ class Session(models.Model):
 
     def get_absolute_url(self):
         return reverse('session-detail', args=[str(self.id)])
-
-
-class Workout(models.Model):
-    name = models.CharField(max_length=100)
-    session = models.ForeignKey(Session, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.name
-
-
-class Cardio(Workout):
-    pass
-
-
-class Weight(Workout):
-    pass
-
-
-class Resistance(Workout):
-    pass
