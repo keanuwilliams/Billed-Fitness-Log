@@ -22,6 +22,7 @@ urlpatterns = [
     path('settings/', user_views.settings, name='settings'),
     path('deactivate/', user_views.deactivate, name='deactivate'),
     path('change-password/', user_views.change_password, name='change-password'),
+    path('workout-info/edit', user_views.edit_workout_info, name='edit-workout-info'),
     path('login/', user_views.login, name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('sessions/', include('log.urls')),

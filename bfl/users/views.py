@@ -10,7 +10,7 @@ from django.contrib.auth import (
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, EditWorkoutInfoForm
 from .models import Profile
 
 
@@ -95,6 +95,7 @@ def profile(request, username):
         }
         return render(request, 'users/profile.html', context)
 
+
 @login_required
 def edit_profile(request, username):
     try:
@@ -136,12 +137,33 @@ def edit_profile(request, username):
             }
             return render(request, 'users/edit-profile.html', context)
 
+
 @login_required
 def settings(request):
     context = {
         'title': 'Settings',
     }
     return render(request, 'users/settings.html', context)
+
+
+@login_required
+def edit_workout_info(request):
+    if request.method == "POST":
+        form = EditWorkoutInfoForm(request.POST, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Workout information was successfully updated.')
+            return redirect('settings')
+        else:
+            messages.warning(request, 'There was an error updating your profile.')
+    else:
+        form = EditWorkoutInfoForm(instance=request.user.profile)
+    context = {
+        'title': 'Edit Workout Info',
+        'form': form,
+    }
+    return render(request, 'users/edit-workout-info.html', context)
+
 
 @login_required
 def deactivate(request):
@@ -155,6 +177,7 @@ def deactivate(request):
         'title': 'Deactivate',
     }
     return render(request, 'users/deactivate.html', context)
+
 
 @login_required
 def change_password(request):

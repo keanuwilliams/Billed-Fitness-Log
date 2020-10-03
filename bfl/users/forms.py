@@ -62,3 +62,10 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['image']
+
+
+class EditWorkoutInfoForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ['user_weight', 'weight_units', 'distance_units']

@@ -1,0 +1,25 @@
+{% extends "users/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9">
+      <h1 class="page-title">Edit Workout Info</h1>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+          {{ form | crispy }}
+        </fieldset>
+        <div class="form-group">
+          <a class="btn btn-secondary" href="{% url 'settings' %}" role="button">Cancel</a>
+          <button class="btn form-button" type="submit">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}

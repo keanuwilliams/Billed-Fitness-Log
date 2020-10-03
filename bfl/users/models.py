@@ -4,10 +4,21 @@ from PIL import Image
 
 
 class Profile(models.Model):
+    DISTANCES = (
+        ('M', 'mi'),
+        ('K', 'km'),
+    )
+    WEIGHTS = (
+        ('P', 'lbs'),
+        ('K', 'kg'),
+    )
     # if the user is deleted, also delete the profile but not vice versa
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # default to the default.jpeg picture when profile is created
     image = models.ImageField(default='default.jpeg', upload_to='profile_pics')
+    user_weight = models.FloatField(default=0)
+    weight_units = models.CharField(max_length=1, choices=WEIGHTS, default='P')
+    distance_units = models.CharField(max_length=1, choices=DISTANCES, default='M')
 
     def __str__(self):
         return f'{self.user.username} Profile'  # how profile name will be displayed on Admin site
