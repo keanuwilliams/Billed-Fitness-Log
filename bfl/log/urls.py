@@ -7,7 +7,6 @@ from .views import (
     WorkoutUpdateView,
     WorkoutDeleteView,
 )
-from . import views
 
 urlpatterns = [
     path('', WorkoutListView.as_view(), name='workout-list'),

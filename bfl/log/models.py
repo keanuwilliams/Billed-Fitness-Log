@@ -5,9 +5,12 @@ from django.contrib.auth.models import User
 
 
 class Workout(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=30)
     date = models.DateTimeField(default=timezone.now)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    sets = models.PositiveSmallIntegerField(default=1)
+    reps = models.PositiveSmallIntegerField(default=1)
+    weight = models.FloatField(default=0)
 
     def __str__(self):
         return self.name

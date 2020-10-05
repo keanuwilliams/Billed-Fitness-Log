@@ -50,13 +50,16 @@ class WorkoutDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.object.name
-        if '/new/' in self.request.META.get('HTTP_REFERER') or '/edit/' in self.request.META.get('HTTP_REFERER'):
-            if self.request.user.is_superuser:
-                context['referer'] = reverse('workout-admin-list')
+        if self.request.META.get('HTTP_REFERER'):
+            if '/new/' in self.request.META.get('HTTP_REFERER') or '/edit/' in self.request.META.get('HTTP_REFERER'):
+                if self.request.user.is_superuser and '/all/' in self.request.META.get('HTTP_REFERER'):
+                    context['referer'] = reverse('workout-admin-list')
+                else:
+                    context['referer'] = reverse('workout-list')
             else:
-                context['referer'] = reverse('workout-list')
+                context['referer'] = self.request.META.get('HTTP_REFERER')
         else:
-            context['referer'] = self.request.META.get('HTTP_REFERER')
+            context['referer'] = reverse('workout-list')
         return context
 
     def test_func(self):

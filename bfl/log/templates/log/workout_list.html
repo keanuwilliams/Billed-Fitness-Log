@@ -31,7 +31,7 @@
         <div class="row">
           <div class="col-md-12 text-center">
             <h1 style="color: white;">No Workouts to Display.</h1>
-            <h3 style="color: white; margin-top: 1em;">Get started by adding workout workouts!</h3>
+            <h3 style="color: white; margin-top: 1em;">Get started by adding workouts!</h3>
           </div>
         </div>
       {% else %}
@@ -53,16 +53,6 @@
                   </h6>
                   {% endif %}
                   <h6 class="card-subtitle mb-2 text-muted">{{ workout.date | date:"F d, Y" }}</h6>
-                  {% if workout.user == user %}
-                    <div class="btn-group mr-auto">
-                      <a class="btn btn-secondary" href="{% url 'workout-update' workout.id %}" role="button">
-                        Edit
-                      </a>
-                      <a class="btn btn-danger" href="{% url 'workout-delete' workout.id %}" role="button">
-                        Delete
-                      </a>
-                    </div>
-                  {% endif %}
                 </div>
               </div>
             </div>
