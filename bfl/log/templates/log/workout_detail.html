@@ -13,12 +13,13 @@
         <small class="text-muted">{{ workout.date | date:"F d, Y" }}</small>
       </h1>
     </div>
-    <div class="col-sm-2">
+    <div class="col-sm-2 text-center">
       {% if workout.user == user %}
-        <input type="hidden" name="next" value="{{ referer }}">
-        <a class="btn btn-secondary" href="{% url 'workout-update' workout.id %}" role="button">Edit</a>
-        <a class="btn btn-danger" href="{% url 'workout-delete' workout.id %}" role="button">Delete</a>
-      {% elif user.is_superuser and workout.user != user %}
+        <div class="btn-group">
+          <a class="btn btn-secondary" href="{% url 'workout-update' workout.id %}" role="button">Edit</a>
+          <a class="btn btn-danger" href="{% url 'workout-delete' workout.id %}" role="button">Delete</a>
+        </div>
+      {% elif user.is_superuser and workout.user is not user %}
       <!-- Will replace once workouts are implemented -->
         <h2 style="color: white;">
           <a class="workout-detail-user-link" href="{% url 'profile' workout.user.username %}">
@@ -26,6 +27,56 @@
           </a>
         </h2>
       {% endif %}
+    </div>
+  </div>
+  <div class="row" style="padding-top: 1em;">
+    <div class="col-md-4">
+      <div class="card text-center">
+        <div class="card-header">
+          Sets
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">{{ workout.sets }}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-center">
+        <div class="card-header">
+          Reps
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">{{ workout.reps }}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-center">
+        <div class="card-header">
+          Weight
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">{{ workout.weight }}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="padding-top: 3em;">
+    <div class="col-md-12">
+      <div class="card text-center">
+        <div class="card-header">
+          <strong>
+            Past {{ workout.name }} Workouts
+          </strong>
+        </div>
+        <div class="card-body">
+          <!-- If there are no past workouts, let the user know -->
+          <!-- Else display the past workouts as a table like list view -->
+        </div>
+        <div class="card-footer text-muted">
+          2 days ago
+        </div>
+      </div>
     </div>
   </div>
 </div>

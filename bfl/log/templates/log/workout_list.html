@@ -30,34 +30,57 @@
       {% if object_list.count == 0 %}
         <div class="row">
           <div class="col-md-12 text-center">
-            <h1 style="color: white;">No Workouts to Display.</h1>
+            <h1 style="color: white;">No workouts to display.</h1>
             <h3 style="color: white; margin-top: 1em;">Get started by adding workouts!</h3>
           </div>
         </div>
       {% else %}
+      <table class="table table-light table-striped">
+        <thead class="thead-light">
+          <tr>
+            {% if user.is_superuser and all %}
+              <th scope="col">User</th>
+              <th scope="col">Name</th>
+              <th scope="col">Date</th>
+            {% else %}
+              <th scope="col">Name</th>
+              <th scope="col">Weight</th>
+              <th scope="col">Sets</th>
+              <th scope="col">Reps</th>
+              <th scope="col">Date</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
         {% for workout in object_list %}
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="card">
-                <div class="card-body">
-                  <h4>
-                    <a class="workout-title-link" href="{% url 'workout-detail' workout.id %}">
-                      {{ workout.name }}
-                    </a>
-                  </h4>
-                  {% if user.is_superuser and workout.user != user %}
-                  <h6>
-                    <a class="workout-user-link" href="{% url 'profile' workout.user.username %}">
-                      @{{ workout.user }}
-                    </a>
-                  </h6>
-                  {% endif %}
-                  <h6 class="card-subtitle mb-2 text-muted">{{ workout.date | date:"F d, Y" }}</h6>
-                </div>
-              </div>
-            </div>
-          </div>
+          <tr>
+            {% if user.is_superuser and all %}
+              <th scope="row">
+                <a class="workout-title-link" href="{% url 'profile' workout.user.username %}">
+                  @{{ workout.user.username }}
+                </a>
+              </th>
+              <td>
+                <a class="workout-title-link" href="{% url 'workout-detail' workout.id %}">
+                  {{ workout.name }}
+                </a>
+              </td>
+              <td>{{ workout.date | date:"m/d/Y" }}</td>
+            {% else %}
+              <th scope="row">
+                <a class="workout-title-link" href="{% url 'workout-detail' workout.id %}">
+                  {{ workout.name }}
+                </a>
+              </th>
+              <td>{{ workout.weight }}</td>
+              <td>{{ workout.sets }}</td>
+              <td>{{ workout.reps }}</td>
+              <td>{{ workout.date | date:"m/d/Y" }}</td>
+            {% endif %}
+          </tr>
         {% endfor %}
+        </tbody>
+      </table>
       {% endif %}
     </div>
   </div>

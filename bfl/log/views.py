@@ -18,6 +18,7 @@ class WorkoutListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'My Workouts'
+        context['all'] = False
         return context
 
     def get_queryset(self):
@@ -31,7 +32,8 @@ class WorkoutAdminListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'My Workouts'
+        context['title'] = 'All Workouts'
+        context['all'] = True
         return context
 
     def get_queryset(self):
@@ -51,7 +53,9 @@ class WorkoutDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['title'] = self.object.name
         if self.request.META.get('HTTP_REFERER'):
-            if '/new/' in self.request.META.get('HTTP_REFERER') or '/edit/' in self.request.META.get('HTTP_REFERER'):
+            if '/new/' in self.request.META.get('HTTP_REFERER') \
+                    or '/edit/' in self.request.META.get('HTTP_REFERER') \
+                    or '/delete/' in self.request.META.get('HTTP_REFERER'):
                 if self.request.user.is_superuser and '/all/' in self.request.META.get('HTTP_REFERER'):
                     context['referer'] = reverse('workout-admin-list')
                 else:
