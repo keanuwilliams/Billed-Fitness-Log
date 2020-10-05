@@ -2,7 +2,7 @@
 {% block content %}
 <div class="container-fluid">
   <h1 class="page-title">
-    My Workouts
+    {{ title }}
   </h1>
   <div class="row">
     <div class="col-md-3" id="workout-menu">
@@ -11,17 +11,17 @@
           <h5 class="nav-link" style="color: white;">Menu</h5>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'workout-list' %}">Home</a>
+          <a class="nav-link" href="{% url 'my-workouts' %}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'workout-create' %}">Add Workout</a>
+          <a class="nav-link" href="{% url 'add-workout' %}">Add Workout</a>
         </li>
         {% if user.is_superuser %}
           <li class="nav-item">
             <h5 class="nav-link" style="color: white; padding-top: 1em;">Admin Menu</h5>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'workout-admin-list' %}">View All Workouts</a>
+            <a class="nav-link" href="{% url 'all-workouts-admin' %}">View All Workouts</a>
           </li>
         {% endif %}
       </ul>
@@ -52,7 +52,7 @@
           </tr>
         </thead>
         <tbody>
-        {% for workout in object_list %}
+        {% for workout in workouts %}
           <tr>
             {% if user.is_superuser and all %}
               <th scope="row">

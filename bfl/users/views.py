@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.http import Http404
 from django.contrib import messages
 from django.contrib.auth import (
@@ -23,8 +24,6 @@ def login(request):
     if request.user.is_authenticated:
         return redirect('user-home')
     else:
-        username = ''
-        password = ''
         if request.method == 'POST':
             form = AuthenticationForm(request=request, data=request.POST)
             if form.is_valid():
@@ -98,11 +97,13 @@ def profile(request, username):
 @login_required
 def edit_profile(request, username):
     try:
-        User.objects.get(username=username)
+        user = User.objects.get(username=username)
     except User.DoesNotExist:
         raise Http404
     else:
-        if User.objects.get(username=username) != request.user:
+        if user != request.user:
+            messages.warning(request, f'You are not authorized to edit this profile, but you are able to '
+                                      f'edit your own.')
             return redirect('edit-profile', request.user.username)
         else:
             if request.method == 'POST':
@@ -117,7 +118,7 @@ def edit_profile(request, username):
                     if referer:
                         if '/settings/' in referer:
                             return redirect('settings')
-                        elif user_form.cleaned_data.get('username') == username:
+                        elif user_form.cleaned_data.get('username'):
                             return redirect('profile', username)
                         else:
                             return redirect('profile', user_form.cleaned_data.get('username'))
@@ -125,6 +126,8 @@ def edit_profile(request, username):
                         return redirect('profile', user_form.cleaned_data.get('username'))
             else:
                 referer = request.META.get('HTTP_REFERER')
+                if referer is None:
+                    referer = reverse('profile', args=[request.user.username])
                 user_form = UserUpdateForm(instance=request.user)
                 profile_form = ProfileUpdateForm(instance=request.user.profile)
 
