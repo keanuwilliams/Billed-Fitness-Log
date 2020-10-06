@@ -124,6 +124,15 @@ def r_workout_detail(request, pk):
             else:
                 referer = reverse('my-workouts')
 
+            if workout.resistance == 'E':
+                resistance = 'Easy'
+            elif workout.resistance == 'M':
+                resistance = 'Medium'
+            elif workout.resistance == 'D':
+                resistance = 'Difficult'
+            else:
+                resistance = 'Advanced'
+
             context = {
                 'title': title,
                 'workout': workout,
@@ -132,7 +141,7 @@ def r_workout_detail(request, pk):
                 'num3_title': 'Resistance',
                 'num1_value': workout.sets,
                 'num2_value': workout.reps,
-                'num3_value': workout.resistance,
+                'num3_value': resistance,
                 'num3_units': '',
                 'referer': referer,
                 'update': reverse('edit-r-workout', args=[str(workout.id)]),
@@ -167,7 +176,23 @@ def c_workout_detail(request, pk):
                 referer = reverse('my-workouts')
 
             distance = workout.distance
-            units = workout.user.profile.distance_units
+            if workout.user.profile.distance_units == 'M':
+                units = 'miles'
+            else:
+                units = 'kilometers'
+
+            hour = str(workout.time.hour)
+            minute = str(workout.time.minute)
+            second = str(workout.time.second)
+
+            if len(hour) == 1:
+                hour = '0'+hour
+            if len(minute) == 1:
+                minute = '0'+minute
+            if len(second) == 1:
+                second = '0'+second
+
+            time = hour+':'+minute+':'+second
 
             if distance == 0:
                 distance = 'N/A'
@@ -180,7 +205,7 @@ def c_workout_detail(request, pk):
                 'num2_title': 'Time',
                 'num3_title': 'Distance',
                 'num1_value': workout.sets,
-                'num2_value': workout.time,
+                'num2_value': time,
                 'num3_value': distance,
                 'num3_units': units,
                 'referer': referer,
