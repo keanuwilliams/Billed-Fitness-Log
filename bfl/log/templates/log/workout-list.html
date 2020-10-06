@@ -14,73 +14,180 @@
           <a class="nav-link" href="{% url 'my-workouts' %}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'add-workout' %}">Add Workout</a>
+          <a class="nav-link" href="{% url 'workout-select' %}">Add Workout</a>
         </li>
         {% if user.is_superuser %}
-          <li class="nav-item">
-            <h5 class="nav-link" style="color: white; padding-top: 1em;">Admin Menu</h5>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'all-workouts-admin' %}">View All Workouts</a>
-          </li>
+        <li class="nav-item">
+          <h5 class="nav-link" style="color: white; padding-top: 1em;">Admin Menu</h5>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'all-workouts-admin' %}">View All Workouts</a>
+        </li>
         {% endif %}
       </ul>
     </div>
     <div class="col-md-9" id="workouts">
-      {% if object_list.count == 0 %}
-        <div class="row">
-          <div class="col-md-12 text-center">
-            <h1 style="color: white;">No workouts to display.</h1>
-            <h3 style="color: white; margin-top: 1em;">Get started by adding workouts!</h3>
-          </div>
+      {% if c_workouts.count == 0 and r_workouts.count == 0 and wl_workouts.count == 0 %}
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <h1 style="color: white;">No Workouts to Display.</h1>
+          <h3 style="color: white; margin-top: 1em;">Get started by adding workouts!</h3>
         </div>
+      </div>
       {% else %}
+      {% if c_workouts.count != 0 %}
+      <h1 style="color: white; padding-bottom: 1em;">Recent Cardio Workouts</h1>
       <table class="table table-light table-striped">
         <thead class="thead-light">
-          <tr>
-            {% if user.is_superuser and all %}
-              <th scope="col">User</th>
-              <th scope="col">Name</th>
-              <th scope="col">Date</th>
-            {% else %}
-              <th scope="col">Name</th>
-              <th scope="col">Weight</th>
-              <th scope="col">Sets</th>
-              <th scope="col">Reps</th>
-              <th scope="col">Date</th>
-            {% endif %}
-          </tr>
+        <tr>
+          {% if user.is_superuser and all %}
+          <th scope="col">User</th>
+          <th scope="col">Name</th>
+          <th scope="col">Date</th>
+          {% else %}
+          <th scope="col">Name</th>
+          <th scope="col">Sets</th>
+          <th scope="col">Time</th>
+          <th scope="col">Distance</th>
+          <th scope="col">Date</th>
+          {% endif %}
+        </tr>
         </thead>
         <tbody>
-        {% for workout in workouts %}
-          <tr>
-            {% if user.is_superuser and all %}
-              <th scope="row">
-                <a class="workout-title-link" href="{% url 'profile' workout.user.username %}">
-                  @{{ workout.user.username }}
-                </a>
-              </th>
-              <td>
-                <a class="workout-title-link" href="{% url 'workout-detail' workout.id %}">
-                  {{ workout.name }}
-                </a>
-              </td>
-              <td>{{ workout.date | date:"m/d/Y" }}</td>
+        {% for workout in c_workouts %}
+        <tr>
+          {% if user.is_superuser and all %}
+          <th scope="row">
+            <a class="workout-title-link" href="{% url 'profile' workout.user.username %}">
+              @{{ workout.user.username }}
+            </a>
+          </th>
+          <td>
+            <a class="workout-title-link" href="{% url 'c-workout-detail' workout.id %}">
+              {{ workout.name }}
+            </a>
+          </td>
+          <td>{{ workout.date | date:"m/d/Y" }}</td>
+          {% else %}
+          <th scope="row">
+            <a class="workout-title-link" href="{% url 'c-workout-detail' workout.id %}">
+              {{ workout.name }}
+            </a>
+          </th>
+          <td>{{ workout.sets }}</td>
+          <td>{{ workout.time }}</td>
+          <td>
+            {% if workout.distance == 0 %}
+            N/A
             {% else %}
-              <th scope="row">
-                <a class="workout-title-link" href="{% url 'workout-detail' workout.id %}">
-                  {{ workout.name }}
-                </a>
-              </th>
-              <td>{{ workout.weight }}</td>
-              <td>{{ workout.sets }}</td>
-              <td>{{ workout.reps }}</td>
-              <td>{{ workout.date | date:"m/d/Y" }}</td>
+            {{ workout.distance }} {{ workout.user.profile.distance_units }}
             {% endif %}
-          </tr>
+          </td>
+          <td>{{ workout.date | date:"m/d/Y" }}</td>
+          {% endif %}
+        </tr>
         {% endfor %}
         </tbody>
       </table>
+      {% endif %}
+      {% if r_workouts.count != 0 %}
+      <h1 style="color: white; padding-bottom: 1em;">Recent Resistance Workouts</h1>
+      <table class="table table-light table-striped">
+        <thead class="thead-light">
+        <tr>
+          {% if user.is_superuser and all %}
+          <th scope="col">User</th>
+          <th scope="col">Name</th>
+          <th scope="col">Date</th>
+          {% else %}
+          <th scope="col">Name</th>
+          <th scope="col">Resistance</th>
+          <th scope="col">Sets</th>
+          <th scope="col">Reps</th>
+          <th scope="col">Date</th>
+          {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for workout in r_workouts %}
+        <tr>
+          {% if user.is_superuser and all %}
+          <th scope="row">
+            <a class="workout-title-link" href="{% url 'profile' workout.user.username %}">
+              @{{ workout.user.username }}
+            </a>
+          </th>
+          <td>
+            <a class="workout-title-link" href="{% url 'r-workout-detail' workout.id %}">
+              {{ workout.name }}
+            </a>
+          </td>
+          <td>{{ workout.date | date:"m/d/Y" }}</td>
+          {% else %}
+          <th scope="row">
+            <a class="workout-title-link" href="{% url 'r-workout-detail' workout.id %}">
+              {{ workout.name }}
+            </a>
+          </th>
+          <td>{{ workout.resistance }}</td>
+          <td>{{ workout.sets }}</td>
+          <td>{{ workout.reps }}</td>
+          <td>{{ workout.date | date:"m/d/Y" }}</td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+      {% if wl_workouts.count != 0 %}
+      <h1 style="color: white; padding-bottom: 1em;">Recent Weightlifting Workouts</h1>
+      <table class="table table-light table-striped">
+        <thead class="thead-light">
+        <tr>
+          {% if user.is_superuser and all %}
+          <th scope="col">User</th>
+          <th scope="col">Name</th>
+          <th scope="col">Date</th>
+          {% else %}
+          <th scope="col">Name</th>
+          <th scope="col">Weight</th>
+          <th scope="col">Sets</th>
+          <th scope="col">Reps</th>
+          <th scope="col">Date</th>
+          {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for workout in wl_workouts %}
+        <tr>
+          {% if user.is_superuser and all %}
+          <th scope="row">
+            <a class="workout-title-link" href="{% url 'profile' workout.user.username %}">
+              @{{ workout.user.username }}
+            </a>
+          </th>
+          <td>
+            <a class="workout-title-link" href="{% url 'wl-workout-detail' workout.id %}">
+              {{ workout.name }}
+            </a>
+          </td>
+          <td>{{ workout.date | date:"m/d/Y" }}</td>
+          {% else %}
+          <th scope="row">
+            <a class="workout-title-link" href="{% url 'wl-workout-detail' workout.id %}">
+              {{ workout.name }}
+            </a>
+          </th>
+          <td>{{ workout.weight }}</td>
+          <td>{{ workout.sets }}</td>
+          <td>{{ workout.reps }}</td>
+          <td>{{ workout.date | date:"m/d/Y" }}</td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
       {% endif %}
     </div>
   </div>

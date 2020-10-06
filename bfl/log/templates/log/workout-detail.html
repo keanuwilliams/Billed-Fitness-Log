@@ -16,8 +16,8 @@
     <div class="col-sm-2 text-center">
       {% if workout.user == user %}
         <div class="btn-group">
-          <a class="btn btn-secondary" href="{% url 'workout-update' workout.id %}" role="button">Edit</a>
-          <a class="btn btn-danger" href="{% url 'workout-delete' workout.id %}" role="button">Delete</a>
+          <a class="btn btn-secondary" href="{{ update }}" role="button">Edit</a>
+          <a class="btn btn-danger" href="{{ delete }}" role="button">Delete</a>
         </div>
       {% elif user.is_superuser and workout.user is not user %}
       <!-- Will replace once workouts are implemented -->
@@ -33,30 +33,30 @@
     <div class="col-md-4">
       <div class="card text-center">
         <div class="card-header">
-          Sets
+          {{ num1_title }}
         </div>
         <div class="card-body">
-          <h4 class="card-title">{{ workout.sets }}</h4>
+          <h4 class="card-title">{{ num1_value }}</h4>
         </div>
       </div>
     </div>
     <div class="col-md-4">
       <div class="card text-center">
         <div class="card-header">
-          Reps
+          {{ num2_title }}
         </div>
         <div class="card-body">
-          <h4 class="card-title">{{ workout.reps }}</h4>
+          <h4 class="card-title">{{ num2_value }}</h4>
         </div>
       </div>
     </div>
     <div class="col-md-4">
       <div class="card text-center">
         <div class="card-header">
-          Weight
+          {{ num3_title }}
         </div>
         <div class="card-body">
-          <h4 class="card-title">{{ workout.weight }}</h4>
+          <h4 class="card-title">{{ num3_value }} {{ num3_units }}</h4>
         </div>
       </div>
     </div>
