@@ -14,9 +14,25 @@ from .models import WLWorkout, RWorkout, CWorkout
 from .forms import WLWorkoutForm, RWorkoutForm, CWorkoutForm
 
 
+@login_required
+def my_workouts(request):
+    c_workouts = CWorkout.objects.filter(user=request.user)
+    r_workouts = RWorkout.objects.filter(user=request.user)
+    wl_workouts = WLWorkout.objects.filter(user=request.user)
+
+    context = {
+        'title': 'My Workouts',
+        'all': False,
+        'c_workouts': c_workouts.order_by('-date')[:3],
+        'r_workouts': r_workouts.order_by('-date')[:3],
+        'wl_workouts': wl_workouts.order_by('-date')[:3],
+    }
+    return render(request, 'log/my-workout.html', context)
+
+
 class CWorkoutListView(ListView, LoginRequiredMixin):
     model = CWorkout
-    template_name = 'log/workout-single-list.html'
+    template_name = 'log/workout-list.html'
     ordering = '-date'
 
     def get_context_data(self, **kwargs):
@@ -35,7 +51,7 @@ class CWorkoutListView(ListView, LoginRequiredMixin):
 
 class RWorkoutListView(ListView, LoginRequiredMixin):
     model = WLWorkout
-    template_name = 'log/workout-single-list.html'
+    template_name = 'log/workout-list.html'
     ordering = '-date'
 
     def get_context_data(self, **kwargs):
@@ -54,7 +70,7 @@ class RWorkoutListView(ListView, LoginRequiredMixin):
 
 class WLWorkoutListView(ListView, LoginRequiredMixin):
     model = WLWorkout
-    template_name = 'log/workout-single-list.html'
+    template_name = 'log/workout-list.html'
     ordering = '-date'
 
     def get_context_data(self, **kwargs):
@@ -69,40 +85,6 @@ class WLWorkoutListView(ListView, LoginRequiredMixin):
     def get_queryset(self):
         queryset = WLWorkout.objects.filter(user=self.request.user)
         return queryset.order_by(self.ordering)
-
-
-@login_required
-def my_workouts(request):
-    c_workouts = CWorkout.objects.filter(user=request.user)
-    r_workouts = RWorkout.objects.filter(user=request.user)
-    wl_workouts = WLWorkout.objects.filter(user=request.user)
-
-    context = {
-        'title': 'My Workouts',
-        'all': False,
-        'c_workouts': c_workouts.order_by('-date')[:3],
-        'r_workouts': r_workouts.order_by('-date')[:3],
-        'wl_workouts': wl_workouts.order_by('-date')[:3],
-    }
-    return render(request, 'log/workout-list.html', context)
-
-
-@login_required
-def all_workouts_admin(request):
-    if not request.user.is_superuser:
-        redirect('my-workouts')
-    c_workouts = CWorkout.objects.all()
-    r_workouts = RWorkout.objects.all()
-    wl_workouts = WLWorkout.objects.all()
-
-    context = {
-        'title': 'All Workouts',
-        'all': True,
-        'c_workouts': c_workouts.order_by('-date')[:10],
-        'r_workouts': r_workouts.order_by('-date')[:10],
-        'wl_workouts': wl_workouts.order_by('-date')[:10],
-    }
-    return render(request, 'log/workout-list.html', context)
 
 
 @login_required

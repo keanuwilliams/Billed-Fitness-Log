@@ -20,7 +20,6 @@ urlpatterns = [
     path('cardio/', CWorkoutListView.as_view(), name='my-c-workouts'),
     path('resistance/', RWorkoutListView.as_view(), name='my-r-workouts'),
     path('weightlifting/', WLWorkoutListView.as_view(), name='my-wl-workouts'),
-    path('all/', views.all_workouts_admin, name='all-workouts-admin'),
     path('select/', views.select_workouts, name='workout-select'),
     path('cardio/new/', CWorkoutCreateView.as_view(), name='add-c-workout'),
     path('resistance/new/', RWorkoutCreateView.as_view(), name='add-r-workout'),
