@@ -100,6 +100,7 @@ def select_workouts(request):
 def wl_workout_detail(request, pk):
     try:
         workout = WLWorkout.objects.get(pk=pk)
+        related = WLWorkout.objects.exclude(pk=workout.pk).filter(name=workout.name, user=workout.user).order_by('-date')[:5]
     except WLWorkout.DoesNotExist:
         raise Http404
     else:
@@ -111,6 +112,7 @@ def wl_workout_detail(request, pk):
             if request.META.get('HTTP_REFERER'):
                 if '/new/' in request.META.get('HTTP_REFERER') \
                         or '/edit/' in request.META.get('HTTP_REFERER') \
+                        or any(char.isdigit() for char in request.META.get('HTTP_REFERER')) \
                         or '/delete/' in request.META.get('HTTP_REFERER'):
                     referer = reverse('my-workouts')
                 else:
@@ -125,7 +127,9 @@ def wl_workout_detail(request, pk):
 
             context = {
                 'title': title,
+                'category': 'WEIGHTLIFTING',
                 'workout': workout,
+                'related': related,
                 'num1_title': 'Sets',
                 'num2_title': 'Reps',
                 'num3_title': 'Weight',
@@ -144,6 +148,7 @@ def wl_workout_detail(request, pk):
 def r_workout_detail(request, pk):
     try:
         workout = RWorkout.objects.get(pk=pk)
+        related = RWorkout.objects.exclude(pk=workout.pk).filter(name=workout.name, user=workout.user).order_by('-date')[:5]
     except RWorkout.DoesNotExist:
         raise Http404
     else:
@@ -155,6 +160,7 @@ def r_workout_detail(request, pk):
             if request.META.get('HTTP_REFERER'):
                 if '/new/' in request.META.get('HTTP_REFERER') \
                         or '/edit/' in request.META.get('HTTP_REFERER') \
+                        or any(char.isdigit() for char in request.META.get('HTTP_REFERER')) \
                         or '/delete/' in request.META.get('HTTP_REFERER'):
                     if request.user.is_superuser and '/all/' in request.META.get('HTTP_REFERER'):
                         referer = reverse('all-workouts-admin')
@@ -176,7 +182,9 @@ def r_workout_detail(request, pk):
 
             context = {
                 'title': title,
+                'category': 'RESISTANCE',
                 'workout': workout,
+                'related': related,
                 'num1_title': 'Sets',
                 'num2_title': 'Reps',
                 'num3_title': 'Resistance',
@@ -195,6 +203,7 @@ def r_workout_detail(request, pk):
 def c_workout_detail(request, pk):
     try:
         workout = CWorkout.objects.get(pk=pk)
+        related = CWorkout.objects.exclude(pk=workout.pk).filter(name=workout.name, user=workout.user).order_by('-date')[:5]
     except CWorkout.DoesNotExist:
         raise Http404
     else:
@@ -206,6 +215,7 @@ def c_workout_detail(request, pk):
             if request.META.get('HTTP_REFERER'):
                 if '/new/' in request.META.get('HTTP_REFERER') \
                         or '/edit/' in request.META.get('HTTP_REFERER') \
+                        or any(char.isdigit() for char in request.META.get('HTTP_REFERER')) \
                         or '/delete/' in request.META.get('HTTP_REFERER'):
                     if request.user.is_superuser and '/all/' in request.META.get('HTTP_REFERER'):
                         referer = reverse('all-workouts-admin')
@@ -241,7 +251,9 @@ def c_workout_detail(request, pk):
 
             context = {
                 'title': title,
+                'category': 'CARDIO',
                 'workout': workout,
+                'related': related,
                 'num1_title': 'Sets',
                 'num2_title': 'Time',
                 'num3_title': 'Distance',

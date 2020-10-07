@@ -15,22 +15,22 @@
     </div>
     <div class="col-sm-2 text-center">
       {% if workout.user == user %}
-        <div class="btn-group">
-          <a class="btn btn-secondary" href="{{ update }}" role="button">Edit</a>
-          <a class="btn btn-danger" href="{{ delete }}" role="button">Delete</a>
-        </div>
+      <div class="btn-group">
+        <a class="btn btn-secondary" href="{{ update }}" role="button">Edit</a>
+        <a class="btn btn-danger" href="{{ delete }}" role="button">Delete</a>
+      </div>
       {% elif user.is_superuser and workout.user is not user %}
       <!-- Will replace once workouts are implemented -->
-        <h2 style="color: white;">
-          <a class="workout-detail-user-link" href="{% url 'profile' workout.user.username %}">
-            @{{ workout.user }}
-          </a>
-        </h2>
+      <h2 style="color: white;">
+        <a class="workout-detail-user-link" href="{% url 'profile' workout.user.username %}">
+          @{{ workout.user }}
+        </a>
+      </h2>
       {% endif %}
     </div>
   </div>
   <div class="row" style="padding-top: 1em;">
-    <div class="col-md-4">
+    <div class="col-md-4" style="padding-bottom: 1em;">
       <div class="card text-center">
         <div class="card-header">
           {{ num1_title }}
@@ -40,7 +40,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4" style="padding-bottom: 1em;">
       <div class="card text-center">
         <div class="card-header">
           {{ num2_title }}
@@ -50,7 +50,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4" style="padding-bottom: 1em;">
       <div class="card text-center">
         <div class="card-header">
           {{ num3_title }}
@@ -61,20 +61,93 @@
       </div>
     </div>
   </div>
-  <div class="row" style="padding-top: 3em;">
+  <div class="row" style="padding-top: 2em;">
     <div class="col-md-12">
       <div class="card text-center">
         <div class="card-header">
           <strong>
-            Past {{ workout.name }} Workouts
+            Recent {{ workout.name }} Workouts
           </strong>
         </div>
         <div class="card-body">
-          <!-- If there are no past workouts, let the user know -->
-          <!-- Else display the past workouts as a table like list view -->
-        </div>
-        <div class="card-footer text-muted">
-          2 days ago
+          {% if related.count == 0 %}
+          <h4>No Recent Workouts to Display</h4>
+          {% else %}
+          <div class="table-responsive-lg">
+            <table class="table table-light table-striped table-bordered">
+              <thead class="thead-light">
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">{{ num1_title }}</th>
+                <th scope="col">{{ num2_title }}</th>
+                <th scope="col">{{ num3_title }}</th>
+                <th scope="col">Date</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for object in related %}
+              <tr>
+                {% if category == 'CARDIO' %}
+                <th scope="row">
+                  <a class="workout-title-link" href="{% url 'c-workout-detail' object.id %}">
+                    {{ object.name }}
+                  </a>
+                </th>
+                <td>{{ object.sets }}</td>
+                <td>{{ object.time | time:"H:i:s" }}</td>
+                <td>
+                  {% if object.distance == 0 %}
+                  N/A
+                  {% else %}
+                  {% if object.user.profile.distance_units == 'M' %}
+                  {{ object.distance }} mi
+                  {% else %}
+                  {{ object.distance }} km
+                  {% endif %}
+                  {% endif %}
+                </td>
+                {% elif category == 'RESISTANCE' %}
+                <th scope="row">
+                  <a class="workout-title-link" href="{% url 'r-workout-detail' object.id %}">
+                    {{ object.name }}
+                  </a>
+                </th>
+                <td>
+                  {% if object.resistance == 'E' %}
+                  Easy
+                  {% elif object.resistance == 'M' %}
+                  Medium
+                  {% elif object.resistance == 'D' %}
+                  Difficult
+                  {% else %}
+                  Advanced
+                  {% endif %}
+                </td>
+                <td>{{ object.sets }}</td>
+                <td>{{ object.reps }}</td>
+                {% else %}
+                <th scope="row">
+                  <a class="workout-title-link" href="{% url 'wl-workout-detail' object.id %}">
+                    {{ object.name }}
+                  </a>
+                </th>
+                <td>
+                  {% if object.user.profile.weight_units == 'P' %}
+                  {{ object.weight }} lbs
+                  {% else %}
+                  {{ object.weight }} kg
+                  {% endif %}
+                </td>
+                <td>{{ object.sets }}</td>
+                <td>{{ object.reps }}</td>
+                {% endif %}
+                <td>{{ object.date | date:"m/d/Y" }}</td>
+              </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% endif %}
         </div>
       </div>
     </div>
