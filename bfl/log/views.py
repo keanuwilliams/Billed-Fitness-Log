@@ -112,10 +112,7 @@ def wl_workout_detail(request, pk):
                 if '/new/' in request.META.get('HTTP_REFERER') \
                         or '/edit/' in request.META.get('HTTP_REFERER') \
                         or '/delete/' in request.META.get('HTTP_REFERER'):
-                    if request.user.is_superuser and '/all/' in request.META.get('HTTP_REFERER'):
-                        referer = reverse('all-workouts-admin')
-                    else:
-                        referer = reverse('my-workouts')
+                    referer = reverse('my-workouts')
                 else:
                     referer = request.META.get('HTTP_REFERER')
             else:
