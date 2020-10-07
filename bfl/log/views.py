@@ -4,6 +4,7 @@ from django.http import Http404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.generic import (
+    ListView,
     CreateView,
     UpdateView,
     DeleteView,
@@ -11,6 +12,63 @@ from django.views.generic import (
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import WLWorkout, RWorkout, CWorkout
 from .forms import WLWorkoutForm, RWorkoutForm, CWorkoutForm
+
+
+class CWorkoutListView(ListView, LoginRequiredMixin):
+    model = CWorkout
+    template_name = 'log/workout-single-list.html'
+    ordering = '-date'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'My Cardio Workouts'
+        context['category'] = 'CARDIO'
+        context['th_1'] = 'Sets'
+        context['th_2'] = 'Time'
+        context['th_3'] = 'Distance'
+        return context
+
+    def get_queryset(self):
+        queryset = CWorkout.objects.filter(user=self.request.user)
+        return queryset.order_by(self.ordering)
+
+
+class RWorkoutListView(ListView, LoginRequiredMixin):
+    model = WLWorkout
+    template_name = 'log/workout-single-list.html'
+    ordering = '-date'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'My Resistance Workouts'
+        context['category'] = 'RESISTANCE'
+        context['th_1'] = 'Resistance'
+        context['th_2'] = 'Sets'
+        context['th_3'] = 'Reps'
+        return context
+
+    def get_queryset(self):
+        queryset = RWorkout.objects.filter(user=self.request.user)
+        return queryset.order_by(self.ordering)
+
+
+class WLWorkoutListView(ListView, LoginRequiredMixin):
+    model = WLWorkout
+    template_name = 'log/workout-single-list.html'
+    ordering = '-date'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'My Weightlifting Workouts'
+        context['category'] = 'WEIGHTLIFTING'
+        context['th_1'] = 'Weight'
+        context['th_2'] = 'Sets'
+        context['th_3'] = 'Reps'
+        return context
+
+    def get_queryset(self):
+        queryset = WLWorkout.objects.filter(user=self.request.user)
+        return queryset.order_by(self.ordering)
 
 
 @login_required
@@ -40,9 +98,9 @@ def all_workouts_admin(request):
     context = {
         'title': 'All Workouts',
         'all': True,
-        'c_workouts': c_workouts.order_by('-date')[:3],
-        'r_workouts': r_workouts.order_by('-date')[:3],
-        'wl_workouts': wl_workouts.order_by('-date')[:3],
+        'c_workouts': c_workouts.order_by('-date')[:10],
+        'r_workouts': r_workouts.order_by('-date')[:10],
+        'wl_workouts': wl_workouts.order_by('-date')[:10],
     }
     return render(request, 'log/workout-list.html', context)
 
@@ -82,6 +140,11 @@ def wl_workout_detail(request, pk):
             else:
                 referer = reverse('my-workouts')
 
+            if workout.user.profile.weight_units == 'P':
+                units = 'lbs'
+            else:
+                units = 'kg'
+
             context = {
                 'title': title,
                 'workout': workout,
@@ -91,7 +154,7 @@ def wl_workout_detail(request, pk):
                 'num1_value': workout.sets,
                 'num2_value': workout.reps,
                 'num3_value': workout.weight,
-                'num3_units': workout.user.profile.weight_units,
+                'num3_units': units,
                 'referer': referer,
                 'update': reverse('edit-wl-workout', args=[str(workout.id)]),
                 'delete': reverse('delete-wl-workout', args=[str(workout.id)]),
@@ -224,6 +287,7 @@ class CWorkoutCreateView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'New Cardio Workout'
         context['page_title'] = 'New Cardio Workout'
+        context['referer'] = reverse('workout-select')
         return context
 
     def form_valid(self, form):
@@ -240,6 +304,7 @@ class RWorkoutCreateView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'New Resistance Workout'
         context['page_title'] = 'New Resistance Workout'
+        context['referer'] = reverse('workout-select')
         return context
 
     def form_valid(self, form):
@@ -256,6 +321,7 @@ class WLWorkoutCreateView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'New Weightlifting Workout'
         context['page_title'] = 'New Weightlifting Workout'
+        context['referer'] = reverse('workout-select')
         return context
 
     def form_valid(self, form):
@@ -272,6 +338,7 @@ class CWorkoutUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Edit ' + self.object.name
         context['page_title'] = self.object.name
+        context['referer'] = reverse('c-workout-detail', args=[self.object.id])
         return context
 
     def form_valid(self, form):
@@ -294,6 +361,7 @@ class RWorkoutUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Edit ' + self.object.name
         context['page_title'] = self.object.name
+        context['referer'] = reverse('r-workout-detail', args=[self.object.id])
         return context
 
     def form_valid(self, form):
@@ -316,6 +384,7 @@ class WLWorkoutUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Edit ' + self.object.name
         context['page_title'] = self.object.name
+        context['referer'] = reverse('wl-workout-detail', args=[self.object.id])
         return context
 
     def form_valid(self, form):

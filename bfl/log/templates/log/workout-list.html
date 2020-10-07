@@ -14,6 +14,15 @@
           <a class="nav-link" href="{% url 'my-workouts' %}">Home</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="{% url 'my-c-workouts' %}">My Cardio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'my-r-workouts' %}">My Resistance</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'my-wl-workouts' %}">My Weightlifting</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="{% url 'workout-select' %}">Add Workout</a>
         </li>
         {% if user.is_superuser %}
