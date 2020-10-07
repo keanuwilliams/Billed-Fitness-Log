@@ -6,9 +6,9 @@
     <div class="media">
       <img id="profile-image" class="rounded-circle account-img align-self-center mr-3" src="{{ user.profile.image.url }}">
       <div id="profile-info" class="media-body">
-        <h1 class="account-heading mt-0">{{ user.first_name }} {{ user.last_name }}</h1>
-        <h3 class="text-secondary">@{{ user.username }}</h3>
-        <h3 class="text-secondary">{{ user.email }}</h3>
+        <h2 class="account-heading mt-0">{{ user.first_name }} {{ user.last_name }}</h2>
+        <h4 class="text-secondary">@{{ user.username }}</h4>
+        <h4 class="text-secondary">{{ user.email }}</h4>
       </div>
     </div>
     <form id="edit-profile-form" method="POST" enctype="multipart/form-data">
