@@ -92,7 +92,6 @@ def select_workouts(request):
 
     context = {
         'title': 'Select Workout Type',
-        'page_title': 'Select Workout Type',
     }
     return render(request, 'log/workout-select.html', context)
 

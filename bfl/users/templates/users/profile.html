@@ -6,13 +6,15 @@
     <div class="row">
       <div class="col-sm-11">
         <div class="media">
-          <img id="profile-image" class="rounded-circle account-img align-self-center mr-3" src="{{ object.image.url }}">
+          <div>
+            <img id="profile-image" class="rounded-circle account-img align-self-center mr-3" src="{{ object.image.url }}">
+          </div>
           <div id="profile-info" class="media-body">
-            <h1 class="mt-0">
+            <h2 class="mt-0">
               {{ object.user.first_name }} {{ object.user.last_name }}
-            </h1>
-            <h3 class="text-secondary">@{{ object.user.username }}</h3>
-            <h3 class="text-secondary">{{ object.user.email }}</h3>
+            </h2>
+            <h4 class="text-secondary">@{{ object.user.username }}</h4>
+            <h4 class="text-secondary">{{ object.user.email }}</h4>
           </div>
         </div>
       </div>

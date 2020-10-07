@@ -1,15 +1,17 @@
 {% extends "users/base.html" %}
 {% block content %}
 <div class="container-fluid">
-  <h1 class="page-title">
-    {% block title %}{% endblock title %}
-  </h1>
+  <div class="row text-center">
+    <div class="col-md-12">
+      <h1 class="page-title">
+        {% block title %}{% endblock title %}
+      </h1>
+    </div>
+  </div>
   <div class="row">
-    <div class="col-md-3" id="workout-menu">
-      <ul class="nav flex-column" id="workout-nav">
-        <li class="nav-item">
-          <h5 class="nav-link" style="color: white;">Menu</h5>
-        </li>
+    <div class="col-md-2"></div>
+    <div class="col-md-8 mb-5">
+      <ul class="nav justify-content-center" style="background-color: rgba(0,0,0,0.25);">
         <li class="nav-item">
           <a class="nav-link" href="{% url 'my-workouts' %}">Home</a>
         </li>
@@ -22,12 +24,12 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'my-wl-workouts' %}">My Weightlifting</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'workout-select' %}">Add Workout</a>
-        </li>
       </ul>
     </div>
-    <div class="col-md-9" id="workouts">
+    <div class="col-md-2"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
     {% block workout-content %}{% endblock workout-content %}
     </div>
   </div>
