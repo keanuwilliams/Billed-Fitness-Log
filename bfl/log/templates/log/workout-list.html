@@ -13,79 +13,186 @@
   </div>
 </div>
 {% else %}
-<div class="table-responsive-lg">
-  <table class="table table-light table-striped">
-    <thead class="thead-light">
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">{{ th_1 }}</th>
-      <th scope="col">{{ th_2 }}</th>
-      <th scope="col">{{ th_3 }}</th>
-      <th scope="col">Date</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for workout in object_list %}
-    <tr>
-      {% if category == 'CARDIO' %}
-      <th scope="row">
-        <a class="workout-title-link" href="{% url 'c-workout-detail' workout.id %}">
-          {{ workout.name }}
+<div class="container-fluid">
+  <div class="table-responsive-lg">
+    <table class="table table-light table-striped">
+      <thead class="thead-light">
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">{{ th_1 }}</th>
+        <th scope="col">{{ th_2 }}</th>
+        <th scope="col">{{ th_3 }}</th>
+        <th scope="col">Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for workout in object_list %}
+      <tr>
+        {% if category == 'CARDIO' %}
+        <th scope="row">
+          <a class="workout-title-link" href="{% url 'c-workout-detail' workout.id %}">
+            {{ workout.name }}
+          </a>
+        </th>
+        <td>{{ workout.sets }}</td>
+        <td>{{ workout.time | time:"H:i:s" }}</td>
+        <td>
+          {% if workout.distance == 0 %}
+          N/A
+          {% else %}
+          {% if workout.user.profile.distance_units == 'M' %}
+          {{ workout.distance }} mi
+          {% else %}
+          {{ workout.distance }} km
+          {% endif %}
+          {% endif %}
+        </td>
+        {% elif category == 'RESISTANCE' %}
+        <th scope="row">
+          <a class="workout-title-link" href="{% url 'r-workout-detail' workout.id %}">
+            {{ workout.name }}
+          </a>
+        </th>
+        <td>
+          {% if workout.resistance == 'E' %}
+          Easy
+          {% elif workout.resistance == 'M' %}
+          Medium
+          {% elif workout.resistance == 'D' %}
+          Difficult
+          {% else %}
+          Advanced
+          {% endif %}
+        </td>
+        <td>{{ workout.sets }}</td>
+        <td>{{ workout.reps }}</td>
+        {% else %}
+        <th scope="row">
+          <a class="workout-title-link" href="{% url 'wl-workout-detail' workout.id %}">
+            {{ workout.name }}
+          </a>
+        </th>
+        <td>
+          {% if workout.user.profile.weight_units == 'P' %}
+          {{ workout.weight }} lbs
+          {% else %}
+          {{ workout.weight }} kg
+          {% endif %}
+        </td>
+        <td>{{ workout.sets }}</td>
+        <td>{{ workout.reps }}</td>
+        {% endif %}
+        <td>{{ workout.date | date:"m/d/Y" }}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% if is_paginated %}
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+  {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page=1">
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-bar-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M11.854 3.646a.5.5 0 0 1 0 .708L8.207 8l3.647 3.646a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708 0zM4.5 1a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 1 0v-13a.5.5 0 0 0-.5-.5z"/>
+          </svg>
         </a>
-      </th>
-      <td>{{ workout.sets }}</td>
-      <td>{{ workout.time | time:"H:i:s" }}</td>
-      <td>
-        {% if workout.distance == 0 %}
-        N/A
-        {% else %}
-        {% if workout.user.profile.distance_units == 'M' %}
-        {{ workout.distance }} mi
-        {% else %}
-        {{ workout.distance }} km
-        {% endif %}
-        {% endif %}
-      </td>
-      {% elif category == 'RESISTANCE' %}
-      <th scope="row">
-        <a class="workout-title-link" href="{% url 'r-workout-detail' workout.id %}">
-          {{ workout.name }}
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+          </svg>
         </a>
-      </th>
-      <td>
-        {% if workout.resistance == 'E' %}
-        Easy
-        {% elif workout.resistance == 'M' %}
-        Medium
-        {% elif workout.resistance == 'D' %}
-        Difficult
-        {% else %}
-        Advanced
-        {% endif %}
-      </td>
-      <td>{{ workout.sets }}</td>
-      <td>{{ workout.reps }}</td>
-      {% else %}
-      <th scope="row">
-        <a class="workout-title-link" href="{% url 'wl-workout-detail' workout.id %}">
-          {{ workout.name }}
+      </li>
+  {% else %}
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-bar-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M11.854 3.646a.5.5 0 0 1 0 .708L8.207 8l3.647 3.646a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708 0zM4.5 1a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 1 0v-13a.5.5 0 0 0-.5-.5z"/>
+          </svg>
         </a>
-      </th>
-      <td>
-        {% if workout.user.profile.weight_units == 'P' %}
-        {{ workout.weight }} lbs
-        {% else %}
-        {{ workout.weight }} kg
-        {% endif %}
-      </td>
-      <td>{{ workout.sets }}</td>
-      <td>{{ workout.reps }}</td>
+      </li>
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+          </svg>
+        </a>
+      </li>
+  {% endif %}
+  {% for num in page_obj.paginator.page_range %}
+    {% if page_obj.number == num %}
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">{{ num }}</a>
+      </li>
+    {% elif page_obj.number == 1 %}
+      {% if num < page_obj.number|add:'5' %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+      </li>
       {% endif %}
-      <td>{{ workout.date | date:"m/d/Y" }}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+    {% elif page_obj.number == page_obj.paginator.num_pages %}
+      {% if num > page_obj.number|add:'-5' %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+      </li>
+      {% endif %}
+    {% elif page_obj.number == 2 %}
+      {% if num > page_obj.number|add:'-2' and num < page_obj.number|add:'4' %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+      </li>
+      {% endif %}
+    {% elif page_obj.number == page_obj.paginator.num_pages|add:'-1' %}
+      {% if num > page_obj.number|add:'-4' and num < page_obj.number|add:'2' %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+      </li>
+      {% endif %}
+    {% else %}
+      {% if num < page_obj.number|add:'3' and num > page_obj.number|add:'-3' %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+      </li>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+  {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+          </svg>
+        </a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-bar-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M4.146 3.646a.5.5 0 0 0 0 .708L7.793 8l-3.647 3.646a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708 0zM11.5 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 .5-.5z"/>
+          </svg>
+        </a>
+      </li>
+  {% else %}
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+          </svg>
+        </a>
+      </li>
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-bar-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M4.146 3.646a.5.5 0 0 0 0 .708L7.793 8l-3.647 3.646a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708 0zM11.5 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 .5-.5z"/>
+          </svg>
+        </a>
+      </li>
+  {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
 </div>
 {% endif %}
 {% endblock workout-content %}

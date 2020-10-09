@@ -112,6 +112,8 @@
                     {{ object.name }}
                   </a>
                 </th>
+                <td>{{ object.sets }}</td>
+                <td>{{ object.reps }}</td>
                 <td>
                   {% if object.resistance == 'E' %}
                   Easy
@@ -123,14 +125,14 @@
                   Advanced
                   {% endif %}
                 </td>
-                <td>{{ object.sets }}</td>
-                <td>{{ object.reps }}</td>
                 {% else %}
                 <th scope="row">
                   <a class="workout-title-link" href="{% url 'wl-workout-detail' object.id %}">
                     {{ object.name }}
                   </a>
                 </th>
+                <td>{{ object.sets }}</td>
+                <td>{{ object.reps }}</td>
                 <td>
                   {% if object.user.profile.weight_units == 'P' %}
                   {{ object.weight }} lbs
@@ -138,8 +140,6 @@
                   {{ object.weight }} kg
                   {% endif %}
                 </td>
-                <td>{{ object.sets }}</td>
-                <td>{{ object.reps }}</td>
                 {% endif %}
                 <td>{{ object.date | date:"m/d/Y" }}</td>
               </tr>

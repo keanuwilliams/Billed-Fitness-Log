@@ -19,6 +19,9 @@
         <fieldset class="form-group">
           {{ form | crispy }}
         </fieldset>
+        {% if cardio %}
+        <p class="text-muted" style="margin-top: -2em;">Leave distance equal to zero if it is not needed.</p>
+        {% endif %}
         <div class="form-group">
           <a class="btn btn-secondary" href="{{ referer }}" role="button">Cancel</a>
           <button class="btn form-button" type="submit">Submit</button>

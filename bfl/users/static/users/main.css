@@ -49,12 +49,13 @@
   color: white;
 }
 
-#dropdownMenuLink:hover, .nav-link:hover, .settings-item:hover, .workout-title-link:hover, .workout-user-link:hover {
+#dropdownMenuLink:hover, .nav-link:hover, .page-link:hover, .settings-item:hover, .workout-title-link:hover,
+.workout-user-link:hover {
   color: gray;
   text-decoration: none;
 }
 
-.navbar-link, .navbar-item, .dropdown-item, .settings-item {
+.navbar-link, .page-link, .navbar-item, .dropdown-item, .settings-item {
   color: black;
 }
 
@@ -81,8 +82,6 @@
 #profile-image {
   width: 10em;
   height: 10em;
-  max-width: 10em;
-  max-height: 10em;
   min-width: 3em;
   min-height: 3em;
   margin-bottom: 1em;

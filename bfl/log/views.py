@@ -34,10 +34,11 @@ class CWorkoutListView(ListView, LoginRequiredMixin):
     model = CWorkout
     template_name = 'log/workout-list.html'
     ordering = '-date'
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'My Cardio Workouts'
+        context['title'] = 'My Cardio'
         context['category'] = 'CARDIO'
         context['th_1'] = 'Sets'
         context['th_2'] = 'Time'
@@ -53,10 +54,11 @@ class RWorkoutListView(ListView, LoginRequiredMixin):
     model = WLWorkout
     template_name = 'log/workout-list.html'
     ordering = '-date'
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'My Resistance Workouts'
+        context['title'] = 'My Resistance'
         context['category'] = 'RESISTANCE'
         context['th_1'] = 'Resistance'
         context['th_2'] = 'Sets'
@@ -72,10 +74,11 @@ class WLWorkoutListView(ListView, LoginRequiredMixin):
     model = WLWorkout
     template_name = 'log/workout-list.html'
     ordering = '-date'
+    paginate_by = 1
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'My Weightlifting Workouts'
+        context['title'] = 'My Weightlifting'
         context['category'] = 'WEIGHTLIFTING'
         context['th_1'] = 'Weight'
         context['th_2'] = 'Sets'
@@ -228,9 +231,9 @@ def c_workout_detail(request, pk):
 
             distance = workout.distance
             if workout.user.profile.distance_units == 'M':
-                units = 'miles'
+                units = 'mi'
             else:
-                units = 'kilometers'
+                units = 'km'
 
             hour = str(workout.time.hour)
             minute = str(workout.time.minute)
@@ -278,6 +281,7 @@ class CWorkoutCreateView(LoginRequiredMixin, CreateView):
         context['title'] = 'New Cardio Workout'
         context['page_title'] = 'New Cardio Workout'
         context['referer'] = reverse('workout-select')
+        context['cardio'] = True
         return context
 
     def form_valid(self, form):
@@ -329,6 +333,7 @@ class CWorkoutUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         context['title'] = 'Edit ' + self.object.name
         context['page_title'] = self.object.name
         context['referer'] = reverse('c-workout-detail', args=[self.object.id])
+        context['cardio'] = True
         return context
 
     def form_valid(self, form):
