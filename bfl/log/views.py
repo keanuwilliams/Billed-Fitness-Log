@@ -74,7 +74,7 @@ class WLWorkoutListView(ListView, LoginRequiredMixin):
     model = WLWorkout
     template_name = 'log/workout-list.html'
     ordering = '-date'
-    paginate_by = 1
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
