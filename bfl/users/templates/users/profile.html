@@ -1,6 +1,7 @@
 {% extends "users/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
+{% if object.user.is_active %}
 <div class="container-fluid card" style="background-color: whitesmoke;">
   <div class="card-body">
     <div class="row">
@@ -26,4 +27,9 @@
     </div>
   </div>
 </div>
+{% else %}
+<div class="container text-center">
+  <h2 style="color: white;">User is currently deactivated.</h2>
+</div>
+{% endif %}
 {% endblock content %}

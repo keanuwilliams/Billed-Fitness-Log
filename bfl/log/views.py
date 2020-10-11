@@ -103,7 +103,8 @@ def select_workouts(request):
 def wl_workout_detail(request, pk):
     try:
         workout = WLWorkout.objects.get(pk=pk)
-        related = WLWorkout.objects.exclude(pk=workout.pk).filter(name=workout.name, user=workout.user).order_by('-date')[:5]
+        related = WLWorkout.objects.exclude(pk=workout.pk).filter(name=workout.name,
+                                                                  user=workout.user).order_by('-date')[:5]
     except WLWorkout.DoesNotExist:
         raise Http404
     else:
@@ -151,7 +152,8 @@ def wl_workout_detail(request, pk):
 def r_workout_detail(request, pk):
     try:
         workout = RWorkout.objects.get(pk=pk)
-        related = RWorkout.objects.exclude(pk=workout.pk).filter(name=workout.name, user=workout.user).order_by('-date')[:5]
+        related = RWorkout.objects.exclude(pk=workout.pk).filter(name=workout.name,
+                                                                 user=workout.user).order_by('-date')[:5]
     except RWorkout.DoesNotExist:
         raise Http404
     else:
@@ -206,7 +208,8 @@ def r_workout_detail(request, pk):
 def c_workout_detail(request, pk):
     try:
         workout = CWorkout.objects.get(pk=pk)
-        related = CWorkout.objects.exclude(pk=workout.pk).filter(name=workout.name, user=workout.user).order_by('-date')[:5]
+        related = CWorkout.objects.exclude(pk=workout.pk).filter(name=workout.name,
+                                                                 user=workout.user).order_by('-date')[:5]
     except CWorkout.DoesNotExist:
         raise Http404
     else:

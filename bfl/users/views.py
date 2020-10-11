@@ -37,6 +37,8 @@ def login(request):
                         return redirect('user-home')
                 else:
                     messages.warning(request, "Invalid username or password.")
+            elif not User.objects.get(username=form.data.get('username')).is_active:
+                messages.warning(request, "Please contact an admin to reactivate your account.")
             else:
                 messages.warning(request, "Invalid username or password.")
         form = AuthenticationForm()
