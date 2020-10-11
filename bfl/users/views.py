@@ -10,7 +10,7 @@ from django.contrib.auth import (
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, EditWorkoutInfoForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, EditWorkoutInfoForm, EditWorkoutInfoCategoryForm
 from .models import Profile
 
 
@@ -154,17 +154,21 @@ def settings(request):
 def edit_workout_info(request):
     if request.method == "POST":
         form = EditWorkoutInfoForm(request.POST, instance=request.user.profile)
+        cat_form = EditWorkoutInfoCategoryForm(request.POST, instance=request.user.profile)
         if form.is_valid():
             form.save()
+            cat_form.save()
             messages.success(request, 'Workout information was successfully updated.')
             return redirect('settings')
         else:
             messages.warning(request, 'There was an error updating your profile.')
     else:
         form = EditWorkoutInfoForm(instance=request.user.profile)
+        cat_form = EditWorkoutInfoCategoryForm(instance=request.user.profile)
     context = {
         'title': 'Edit Workout Info',
         'form': form,
+        'cat_form': cat_form,
     }
     return render(request, 'users/edit-workout-info.html', context)
 

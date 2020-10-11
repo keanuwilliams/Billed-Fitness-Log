@@ -69,3 +69,12 @@ class EditWorkoutInfoForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['weight', 'goal_weight', 'weight_units', 'distance_units']
+
+
+class EditWorkoutInfoCategoryForm(forms.ModelForm):
+
+    hide_resistance = forms.BooleanField(label="Hide Resistance Category", required=False)
+
+    class Meta:
+        model = Profile
+        fields = ['hide_resistance']

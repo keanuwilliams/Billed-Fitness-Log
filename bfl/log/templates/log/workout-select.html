@@ -25,6 +25,7 @@
         </div>
       </div>
     </div>
+    {% if not user.profile.hide_resistance %}
     <div class="col-sm-4" style="padding-bottom: 1em;">
       <div class="card">
         <div class="card-body">
@@ -40,6 +41,7 @@
         </div>
       </div>
     </div>
+    {% endif %}
     <div class="col-sm-4" style="padding-bottom: 1em;">
       <div class="card">
         <div class="card-body">
