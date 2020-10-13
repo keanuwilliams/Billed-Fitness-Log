@@ -10,7 +10,14 @@ from django.contrib.auth import (
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, EditWorkoutInfoForm, EditWorkoutInfoCategoryForm
+from .forms import (
+    UserRegisterForm,
+    UserUpdateForm,
+    ProfileUpdateForm,
+    EditWorkoutInfoForm,
+    EditUnitsForm,
+    EditCategoryForm
+)
 from .models import Profile
 
 
@@ -151,26 +158,30 @@ def settings(request):
 
 
 @login_required
-def edit_workout_info(request):
+def edit_user_preferences(request):
     if request.method == "POST":
-        form = EditWorkoutInfoForm(request.POST, instance=request.user.profile)
-        cat_form = EditWorkoutInfoCategoryForm(request.POST, instance=request.user.profile)
-        if form.is_valid():
-            form.save()
+        user_form = EditWorkoutInfoForm(request.POST, instance=request.user.profile)
+        unit_form = EditUnitsForm(request.POST, instance=request.user.profile)
+        cat_form = EditCategoryForm(request.POST, instance=request.user.profile)
+        if user_form.is_valid() and cat_form.is_valid() and unit_form.is_valid():
+            user_form.save()
+            unit_form.save()
             cat_form.save()
             messages.success(request, 'Workout information was successfully updated.')
             return redirect('settings')
         else:
             messages.warning(request, 'There was an error updating your profile.')
     else:
-        form = EditWorkoutInfoForm(instance=request.user.profile)
-        cat_form = EditWorkoutInfoCategoryForm(instance=request.user.profile)
+        user_form = EditWorkoutInfoForm(instance=request.user.profile)
+        unit_form = EditUnitsForm(instance=request.user.profile)
+        cat_form = EditCategoryForm(instance=request.user.profile)
     context = {
-        'title': 'Edit Workout Info',
-        'form': form,
+        'title': 'Edit User Preferences',
+        'user_form': user_form,
+        'unit_form': unit_form,
         'cat_form': cat_form,
     }
-    return render(request, 'users/edit-workout-info.html', context)
+    return render(request, 'users/edit-user-preferences.html', context)
 
 
 @login_required
