@@ -92,7 +92,6 @@ class WLWorkoutListView(ListView, LoginRequiredMixin):
 
 @login_required
 def select_workouts(request):
-
     context = {
         'title': 'Select Workout Type',
     }
@@ -116,7 +115,8 @@ def wl_workout_detail(request, pk):
             if request.META.get('HTTP_REFERER'):
                 if '/new/' in request.META.get('HTTP_REFERER') \
                         or '/edit/' in request.META.get('HTTP_REFERER') \
-                        or any(char.isdigit() for char in request.META.get('HTTP_REFERER')) \
+                        or (any(char.isdigit() for char in request.META.get('HTTP_REFERER'))
+                            and '/weightlifting/?page' not in request.META.get('HTTP_REFERER')) \
                         or '/delete/' in request.META.get('HTTP_REFERER'):
                     referer = reverse('my-wl-workouts')
                 else:
@@ -166,7 +166,8 @@ def r_workout_detail(request, pk):
             if request.META.get('HTTP_REFERER'):
                 if '/new/' in request.META.get('HTTP_REFERER') \
                         or '/edit/' in request.META.get('HTTP_REFERER') \
-                        or any(char.isdigit() for char in request.META.get('HTTP_REFERER')) \
+                        or (any(char.isdigit() for char in request.META.get('HTTP_REFERER'))
+                            and '/resistance/?page' not in request.META.get('HTTP_REFERER')) \
                         or '/delete/' in request.META.get('HTTP_REFERER'):
                     referer = reverse('my-r-workouts')
                 else:
@@ -220,7 +221,8 @@ def c_workout_detail(request, pk):
             if request.META.get('HTTP_REFERER'):
                 if '/new/' in request.META.get('HTTP_REFERER') \
                         or '/edit/' in request.META.get('HTTP_REFERER') \
-                        or any(char.isdigit() for char in request.META.get('HTTP_REFERER')) \
+                        or (any(char.isdigit() for char in request.META.get('HTTP_REFERER'))
+                            and '/cardio/?page' not in request.META.get('HTTP_REFERER')) \
                         or '/delete/' in request.META.get('HTTP_REFERER'):
                     referer = reverse('my-c-workouts')
                 else:
@@ -239,13 +241,13 @@ def c_workout_detail(request, pk):
             second = str(workout.time.second)
 
             if len(hour) == 1:
-                hour = '0'+hour
+                hour = '0' + hour
             if len(minute) == 1:
-                minute = '0'+minute
+                minute = '0' + minute
             if len(second) == 1:
-                second = '0'+second
+                second = '0' + second
 
-            time = hour+':'+minute+':'+second
+            time = hour + ':' + minute + ':' + second
 
             if distance == 0:
                 distance = 'N/A'
@@ -278,16 +280,21 @@ def c_workout_duplicate(request, pk):
     except CWorkout.DoesNotExist:
         raise Http404
     else:
-        workout.pk = None
-        if request.method == "POST":
-            workout.save()
-            return redirect('edit-c-workout', workout.pk)
-        context = {
-            'title': 'Deactivate',
-            'workout': workout,
-            'referer': request.META.get('HTTP_REFERER'),
-        }
-        return render(request, 'log/workout-duplicate.html', context)
+        if workout.user != request.user:
+            messages.warning(request, 'You do not have access to that workout.')
+            return redirect('my-workouts')
+        else:
+            workout.pk = None
+            if request.method == "POST":
+                workout.save()
+                messages.success(request, 'Workout successfully duplicated.')
+                return redirect('edit-c-workout', workout.pk)
+            context = {
+                'title': 'Deactivate',
+                'workout': workout,
+                'referer': request.META.get('HTTP_REFERER'),
+            }
+            return render(request, 'log/workout-duplicate.html', context)
 
 
 @login_required
@@ -297,16 +304,21 @@ def r_workout_duplicate(request, pk):
     except RWorkout.DoesNotExist:
         raise Http404
     else:
-        workout.pk = None
-        if request.method == "POST":
-            workout.save()
-            return redirect('edit-r-workout', workout.pk)
-        context = {
-            'title': 'Deactivate',
-            'workout': workout,
-            'referer': request.META.get('HTTP_REFERER'),
-        }
-        return render(request, 'log/workout-duplicate.html', context)
+        if workout.user != request.user:
+            messages.warning(request, 'You do not have access to that workout.')
+            return redirect('my-workouts')
+        else:
+            workout.pk = None
+            if request.method == "POST":
+                workout.save()
+                messages.success(request, 'Workout successfully duplicated.')
+                return redirect('edit-r-workout', workout.pk)
+            context = {
+                'title': 'Deactivate',
+                'workout': workout,
+                'referer': request.META.get('HTTP_REFERER'),
+            }
+            return render(request, 'log/workout-duplicate.html', context)
 
 
 @login_required
@@ -316,16 +328,21 @@ def wl_workout_duplicate(request, pk):
     except WLWorkout.DoesNotExist:
         raise Http404
     else:
-        workout.pk = None
-        if request.method == "POST":
-            workout.save()
-            return redirect('edit-wl-workout', workout.pk)
-        context = {
-            'title': 'Deactivate',
-            'workout': workout,
-            'referer': request.META.get('HTTP_REFERER'),
-        }
-        return render(request, 'log/workout-duplicate.html', context)
+        if workout.user != request.user:
+            messages.warning(request, 'You do not have access to that workout.')
+            return redirect('my-workouts')
+        else:
+            workout.pk = None
+            if request.method == "POST":
+                workout.save()
+                messages.success(request, 'Workout successfully duplicated.')
+                return redirect('edit-wl-workout', workout.pk)
+            context = {
+                'title': 'Deactivate',
+                'workout': workout,
+                'referer': request.META.get('HTTP_REFERER'),
+            }
+            return render(request, 'log/workout-duplicate.html', context)
 
 
 class CWorkoutCreateView(LoginRequiredMixin, CreateView):
@@ -502,4 +519,3 @@ class WLWorkoutDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == workout.user:
             return True
         return False
-
