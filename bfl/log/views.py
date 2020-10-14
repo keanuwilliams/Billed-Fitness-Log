@@ -118,11 +118,11 @@ def wl_workout_detail(request, pk):
                         or '/edit/' in request.META.get('HTTP_REFERER') \
                         or any(char.isdigit() for char in request.META.get('HTTP_REFERER')) \
                         or '/delete/' in request.META.get('HTTP_REFERER'):
-                    referer = reverse('my-workouts')
+                    referer = reverse('my-wl-workouts')
                 else:
                     referer = request.META.get('HTTP_REFERER')
             else:
-                referer = reverse('my-workouts')
+                referer = reverse('my-wl-workouts')
 
             if workout.user.profile.weight_units == 'P':
                 units = 'lbs'
@@ -143,6 +143,7 @@ def wl_workout_detail(request, pk):
                 'num3_units': units,
                 'referer': referer,
                 'update': reverse('edit-wl-workout', args=[str(workout.id)]),
+                'duplicate': reverse('duplicate-wl-workout', args=[str(workout.id)]),
                 'delete': reverse('delete-wl-workout', args=[str(workout.id)]),
             }
             return render(request, 'log/workout-detail.html', context)
@@ -167,14 +168,11 @@ def r_workout_detail(request, pk):
                         or '/edit/' in request.META.get('HTTP_REFERER') \
                         or any(char.isdigit() for char in request.META.get('HTTP_REFERER')) \
                         or '/delete/' in request.META.get('HTTP_REFERER'):
-                    if request.user.is_superuser and '/all/' in request.META.get('HTTP_REFERER'):
-                        referer = reverse('all-workouts-admin')
-                    else:
-                        referer = reverse('my-workouts')
+                    referer = reverse('my-r-workouts')
                 else:
                     referer = request.META.get('HTTP_REFERER')
             else:
-                referer = reverse('my-workouts')
+                referer = reverse('my-r-workouts')
 
             if workout.resistance == 'E':
                 resistance = 'Easy'
@@ -199,6 +197,7 @@ def r_workout_detail(request, pk):
                 'num3_units': '',
                 'referer': referer,
                 'update': reverse('edit-r-workout', args=[str(workout.id)]),
+                'duplicate': reverse('duplicate-r-workout', args=[str(workout.id)]),
                 'delete': reverse('delete-r-workout', args=[str(workout.id)]),
             }
             return render(request, 'log/workout-detail.html', context)
@@ -223,14 +222,11 @@ def c_workout_detail(request, pk):
                         or '/edit/' in request.META.get('HTTP_REFERER') \
                         or any(char.isdigit() for char in request.META.get('HTTP_REFERER')) \
                         or '/delete/' in request.META.get('HTTP_REFERER'):
-                    if request.user.is_superuser and '/all/' in request.META.get('HTTP_REFERER'):
-                        referer = reverse('all-workouts-admin')
-                    else:
-                        referer = reverse('my-workouts')
+                    referer = reverse('my-c-workouts')
                 else:
                     referer = request.META.get('HTTP_REFERER')
             else:
-                referer = reverse('my-workouts')
+                referer = reverse('my-c-workouts')
 
             distance = workout.distance
             if workout.user.profile.distance_units == 'M':
@@ -269,9 +265,67 @@ def c_workout_detail(request, pk):
                 'num3_units': units,
                 'referer': referer,
                 'update': reverse('edit-c-workout', args=[str(workout.id)]),
+                'duplicate': reverse('duplicate-c-workout', args=[str(workout.id)]),
                 'delete': reverse('delete-c-workout', args=[str(workout.id)]),
             }
             return render(request, 'log/workout-detail.html', context)
+
+
+@login_required
+def c_workout_duplicate(request, pk):
+    try:
+        workout = CWorkout.objects.get(pk=pk)
+    except CWorkout.DoesNotExist:
+        raise Http404
+    else:
+        workout.pk = None
+        if request.method == "POST":
+            workout.save()
+            return redirect('edit-c-workout', workout.pk)
+        context = {
+            'title': 'Deactivate',
+            'workout': workout,
+            'referer': request.META.get('HTTP_REFERER'),
+        }
+        return render(request, 'log/workout-duplicate.html', context)
+
+
+@login_required
+def r_workout_duplicate(request, pk):
+    try:
+        workout = RWorkout.objects.get(pk=pk)
+    except RWorkout.DoesNotExist:
+        raise Http404
+    else:
+        workout.pk = None
+        if request.method == "POST":
+            workout.save()
+            return redirect('edit-r-workout', workout.pk)
+        context = {
+            'title': 'Deactivate',
+            'workout': workout,
+            'referer': request.META.get('HTTP_REFERER'),
+        }
+        return render(request, 'log/workout-duplicate.html', context)
+
+
+@login_required
+def wl_workout_duplicate(request, pk):
+    try:
+        workout = WLWorkout.objects.get(pk=pk)
+    except WLWorkout.DoesNotExist:
+        raise Http404
+    else:
+        workout.pk = None
+        if request.method == "POST":
+            workout.save()
+            return redirect('edit-wl-workout', workout.pk)
+        context = {
+            'title': 'Deactivate',
+            'workout': workout,
+            'referer': request.META.get('HTTP_REFERER'),
+        }
+        return render(request, 'log/workout-duplicate.html', context)
 
 
 class CWorkoutCreateView(LoginRequiredMixin, CreateView):
