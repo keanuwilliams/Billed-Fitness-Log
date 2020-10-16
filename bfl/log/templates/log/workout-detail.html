@@ -137,8 +137,10 @@
                 <td>
                   {% if object.user.profile.weight_units == 'P' %}
                   {{ object.weight }} lbs
-                  {% else %}
+                  {% elif object.user.profile.weight_units == 'K' %}
                   {{ object.weight }} kg
+                  {% else %}
+                  {{ object.weight }} st
                   {% endif %}
                 </td>
                 {% endif %}

@@ -11,6 +11,7 @@ class Profile(models.Model):
     WEIGHTS = (
         ('P', 'lbs'),
         ('K', 'kg'),
+        ('S', 'st'),
     )
     # if the user is deleted, also delete the profile but not vice versa
     user = models.OneToOneField(User, on_delete=models.CASCADE)

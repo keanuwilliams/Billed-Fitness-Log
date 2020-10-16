@@ -16,16 +16,9 @@ from .forms import WLWorkoutForm, RWorkoutForm, CWorkoutForm
 
 @login_required
 def my_workouts(request):
-    c_workouts = CWorkout.objects.filter(user=request.user)
-    r_workouts = RWorkout.objects.filter(user=request.user)
-    wl_workouts = WLWorkout.objects.filter(user=request.user)
 
     context = {
         'title': 'My Workouts',
-        'all': False,
-        'c_workouts': c_workouts.order_by('-date')[:3],
-        'r_workouts': r_workouts.order_by('-date')[:3],
-        'wl_workouts': wl_workouts.order_by('-date')[:3],
     }
     return render(request, 'log/my-workout.html', context)
 
@@ -116,18 +109,20 @@ def wl_workout_detail(request, pk):
                 if '/new/' in request.META.get('HTTP_REFERER') \
                         or '/edit/' in request.META.get('HTTP_REFERER') \
                         or (any(char.isdigit() for char in request.META.get('HTTP_REFERER'))
-                            and '/weightlifting/?page' not in request.META.get('HTTP_REFERER')) \
+                            and '/weightlifting/' in request.META.get('HTTP_REFERER')) \
                         or '/delete/' in request.META.get('HTTP_REFERER'):
-                    referer = reverse('my-wl-workouts')
+                    referer = reverse('my-workouts')
                 else:
                     referer = request.META.get('HTTP_REFERER')
             else:
-                referer = reverse('my-wl-workouts')
+                referer = reverse('my-workouts')
 
             if workout.user.profile.weight_units == 'P':
                 units = 'lbs'
-            else:
+            elif workout.user.profile.weight_units == 'K':
                 units = 'kg'
+            else:
+                units = 'st'
 
             context = {
                 'title': title,
@@ -167,13 +162,13 @@ def r_workout_detail(request, pk):
                 if '/new/' in request.META.get('HTTP_REFERER') \
                         or '/edit/' in request.META.get('HTTP_REFERER') \
                         or (any(char.isdigit() for char in request.META.get('HTTP_REFERER'))
-                            and '/resistance/?page' not in request.META.get('HTTP_REFERER')) \
+                            and '/resistance/' in request.META.get('HTTP_REFERER')) \
                         or '/delete/' in request.META.get('HTTP_REFERER'):
-                    referer = reverse('my-r-workouts')
+                    referer = reverse('my-workouts')
                 else:
                     referer = request.META.get('HTTP_REFERER')
             else:
-                referer = reverse('my-r-workouts')
+                referer = reverse('my-workouts')
 
             if workout.resistance == 'E':
                 resistance = 'Easy'
@@ -222,13 +217,13 @@ def c_workout_detail(request, pk):
                 if '/new/' in request.META.get('HTTP_REFERER') \
                         or '/edit/' in request.META.get('HTTP_REFERER') \
                         or (any(char.isdigit() for char in request.META.get('HTTP_REFERER'))
-                            and '/cardio/?page' not in request.META.get('HTTP_REFERER')) \
+                            and '/cardio/' in request.META.get('HTTP_REFERER')) \
                         or '/delete/' in request.META.get('HTTP_REFERER'):
-                    referer = reverse('my-c-workouts')
+                    referer = reverse('my-workouts')
                 else:
                     referer = request.META.get('HTTP_REFERER')
             else:
-                referer = reverse('my-c-workouts')
+                referer = reverse('my-workouts')
 
             distance = workout.distance
             if workout.user.profile.distance_units == 'M':
