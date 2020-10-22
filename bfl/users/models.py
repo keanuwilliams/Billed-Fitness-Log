@@ -5,13 +5,13 @@ from PIL import Image
 
 class Profile(models.Model):
     DISTANCES = (
-        ('M', 'mi'),
-        ('K', 'km'),
+        ('mi', 'mi'),
+        ('km', 'km'),
     )
     WEIGHTS = (
-        ('P', 'lbs'),
-        ('K', 'kg'),
-        ('S', 'st'),
+        ('lbs', 'lbs'),
+        ('kg', 'kg'),
+        ('st', 'st'),
     )
     # if the user is deleted, also delete the profile but not vice versa
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -19,8 +19,8 @@ class Profile(models.Model):
     image = models.ImageField(default='default.jpeg', upload_to='profile_pics')
     weight = models.FloatField(default=0)
     goal_weight = models.FloatField(default=0)
-    weight_units = models.CharField(max_length=1, choices=WEIGHTS, default='P')
-    distance_units = models.CharField(max_length=1, choices=DISTANCES, default='M')
+    weight_units = models.CharField(max_length=3, choices=WEIGHTS, default='lbs')
+    distance_units = models.CharField(max_length=3, choices=DISTANCES, default='mi')
     hide_resistance = models.BooleanField(default=False)
 
     def __str__(self):

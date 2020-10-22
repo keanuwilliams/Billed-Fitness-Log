@@ -40,11 +40,7 @@
           {% if workout.distance == 0 %}
           N/A
           {% else %}
-          {% if workout.user.profile.distance_units == 'M' %}
-          {{ workout.distance }} mi
-          {% else %}
-          {{ workout.distance }} km
-          {% endif %}
+          {{ workout.distance }} {{ workout.user.profile.distance_units }}
           {% endif %}
         </td>
         {% elif category == 'RESISTANCE' %}
@@ -73,13 +69,7 @@
           </a>
         </th>
         <td>
-          {% if workout.user.profile.weight_units == 'P' %}
-          {{ workout.weight }} lbs
-          {% elif workout.user.profile.weight_units == 'K' %}
-          {{ workout.weight }} kg
-          {% else %}
-          {{ workout.weight }} st
-          {% endif %}
+          {{ workout.weight }} {{ workout.user.profile.weight_units }}
         </td>
         <td>{{ workout.sets }}</td>
         <td>{{ workout.reps }}</td>

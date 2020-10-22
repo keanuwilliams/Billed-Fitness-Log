@@ -4,7 +4,9 @@
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
-                <h1 style="color: white;">Are you sure you want to duplicate the workout "{{ workout.name }}"?</h1>
+                <h2 style="color: white;">Are you sure you want to duplicate the workout "{{ workout.name }}"
+                    on {{ workout.date | date:"m/d/Y" }}?
+                </h2>
             </fieldset>
             <div class="form-group">
                 <a class="btn btn-lg btn-secondary" href="{{ referer }}">Cancel</a>

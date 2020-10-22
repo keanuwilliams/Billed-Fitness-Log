@@ -100,11 +100,7 @@
                   {% if object.distance == 0 %}
                   N/A
                   {% else %}
-                  {% if object.user.profile.distance_units == 'M' %}
-                  {{ object.distance }} mi
-                  {% else %}
-                  {{ object.distance }} km
-                  {% endif %}
+                  {{ object.distance }} {{ object.user.profile.distance_units }}
                   {% endif %}
                 </td>
                 {% elif category == 'RESISTANCE' %}
@@ -135,13 +131,7 @@
                 <td>{{ object.sets }}</td>
                 <td>{{ object.reps }}</td>
                 <td>
-                  {% if object.user.profile.weight_units == 'P' %}
-                  {{ object.weight }} lbs
-                  {% elif object.user.profile.weight_units == 'K' %}
-                  {{ object.weight }} kg
-                  {% else %}
-                  {{ object.weight }} st
-                  {% endif %}
+                  {{ object.weight }} {{ object.user.profile.weight_units }}
                 </td>
                 {% endif %}
                 <td>{{ object.date | date:"m/d/Y" }}</td>

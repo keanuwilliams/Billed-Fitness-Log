@@ -5,14 +5,14 @@
     {% csrf_token %}
     <!-- If the user is a superuser/admin, do not let them have the access to disable their account on this page. -->
     {% if user.is_superuser %}
-      <h1 style="color: white; padding-bottom: 1em;">Admins are not able to deactivate their account without approval.</h1>
+      <h2 style="color: white; padding-bottom: 1em;">Admins are not able to deactivate their account without approval.</h2>
       <a class="btn btn-lg btn-secondary" href="{% url 'settings' %}" role="button">Go Back</a>
     <!-- If the user is a regular user, remind them about implications of deactivating their account. -->
     {% else %}
-      <h1 style="color: white;">Are you sure you want to deactivate your account?</h1>
-      <h2 style="color: white; padding: 1em 0 1em 0;">
+      <h2 style="color: white;">Are you sure you want to deactivate your account?</h2>
+      <h3 style="color: white; padding: 1em 0 1em 0;">
         --You will not be able to access your account unless you contact an administrator.--
-      </h2>
+      </h3>
       <div class="form-group">
         <a class="btn btn-lg btn-secondary" href="{% url 'settings' %}" role="button">Cancel</a>
         <button class="btn btn-lg btn-danger" type="submit">Deactivate</button>

@@ -117,13 +117,6 @@ def wl_workout_detail(request, pk):
             else:
                 referer = reverse('my-workouts')
 
-            if workout.user.profile.weight_units == 'P':
-                units = 'lbs'
-            elif workout.user.profile.weight_units == 'K':
-                units = 'kg'
-            else:
-                units = 'st'
-
             context = {
                 'title': title,
                 'category': 'WEIGHTLIFTING',
@@ -135,7 +128,7 @@ def wl_workout_detail(request, pk):
                 'num1_value': workout.sets,
                 'num2_value': workout.reps,
                 'num3_value': workout.weight,
-                'num3_units': units,
+                'num3_units': workout.user.profile.weight_units,
                 'referer': referer,
                 'update': reverse('edit-wl-workout', args=[str(workout.id)]),
                 'duplicate': reverse('duplicate-wl-workout', args=[str(workout.id)]),
@@ -226,10 +219,11 @@ def c_workout_detail(request, pk):
                 referer = reverse('my-workouts')
 
             distance = workout.distance
-            if workout.user.profile.distance_units == 'M':
-                units = 'mi'
-            else:
-                units = 'km'
+            units = workout.user.profile.distance_units
+
+            if distance == 0:
+                distance = 'N/A'
+                units = ''
 
             hour = str(workout.time.hour)
             minute = str(workout.time.minute)
@@ -243,10 +237,6 @@ def c_workout_detail(request, pk):
                 second = '0' + second
 
             time = hour + ':' + minute + ':' + second
-
-            if distance == 0:
-                distance = 'N/A'
-                units = ''
 
             context = {
                 'title': title,
