@@ -6,10 +6,7 @@
 {% if object_list.count == 0 %}
 <div class="row">
   <div class="col-md-12 text-center">
-    <h3 style="color: white;">No Workouts to Display.</h3>
-    <a class="btn form-button" href="{% url 'workout-select' %}" role="button">
-      Add Workout
-    </a>
+    <h3 style="color: lightgray; margin-top: 1em;">No Workouts to Display.</h3>
   </div>
 </div>
 {% else %}

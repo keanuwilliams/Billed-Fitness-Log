@@ -31,7 +31,7 @@ class CWorkoutListView(ListView, LoginRequiredMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'My Cardio'
+        context['title'] = 'My Workouts'
         context['category'] = 'CARDIO'
         context['th_1'] = 'Sets'
         context['th_2'] = 'Time'
@@ -51,7 +51,7 @@ class RWorkoutListView(ListView, LoginRequiredMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'My Resistance'
+        context['title'] = 'My Workouts'
         context['category'] = 'RESISTANCE'
         context['th_1'] = 'Resistance'
         context['th_2'] = 'Sets'
@@ -71,7 +71,7 @@ class WLWorkoutListView(ListView, LoginRequiredMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'My Weightlifting'
+        context['title'] = 'My Workouts'
         context['category'] = 'WEIGHTLIFTING'
         context['th_1'] = 'Weight'
         context['th_2'] = 'Sets'
