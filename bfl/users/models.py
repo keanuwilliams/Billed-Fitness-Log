@@ -21,7 +21,6 @@ class Profile(models.Model):
     goal_weight = models.FloatField(default=0)
     weight_units = models.CharField(max_length=3, choices=WEIGHTS, default='lbs')
     distance_units = models.CharField(max_length=3, choices=DISTANCES, default='mi')
-    hide_resistance = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.user.username} Profile'  # how profile name will be displayed on Admin site

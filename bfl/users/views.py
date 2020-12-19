@@ -145,7 +145,6 @@ def edit_profile(request, username):
             }
             return render(request, 'users/edit-profile.html', context)
 
-
 @login_required
 def settings(request):
     context = {
