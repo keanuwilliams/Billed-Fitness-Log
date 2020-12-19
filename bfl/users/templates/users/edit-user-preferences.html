@@ -16,8 +16,6 @@
           {{ user_form | crispy }}
           <legend class="border-bottom mb-4">Units of Measurement</legend>
           {{ unit_form | crispy }}
-          <legend class="border-bottom mb-4">Hide Categories</legend>
-          {{ cat_form | crispy }}
         </fieldset>
         <div class="form-group">
           <a class="btn btn-secondary" href="{% url 'settings' %}" role="button">Cancel</a>

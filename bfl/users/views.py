@@ -16,7 +16,6 @@ from .forms import (
     ProfileUpdateForm,
     EditWorkoutInfoForm,
     EditUnitsForm,
-    EditCategoryForm
 )
 from .models import Profile
 
@@ -43,11 +42,9 @@ def login(request):
                         messages.success(request, "Login successful!")
                         return redirect('user-home')
                 else:
-                    messages.warning(request, "Invalid username or password.")
-            elif not User.objects.get(username=form.data.get('username')).is_active:
-                messages.warning(request, "Please contact an admin to reactivate your account.")
+                    messages.warning(request, "Invalid username or password. If account is deactivated, please contact an administrator to reactivate your account.")
             else:
-                messages.warning(request, "Invalid username or password.")
+                messages.warning(request, "Invalid username or password. If account is deactivated, please contact an administrator to reactivate your account.")
         form = AuthenticationForm()
         context = {
             'title': 'Login',
@@ -162,11 +159,9 @@ def edit_user_preferences(request):
     if request.method == "POST":
         user_form = EditWorkoutInfoForm(request.POST, instance=request.user.profile)
         unit_form = EditUnitsForm(request.POST, instance=request.user.profile)
-        cat_form = EditCategoryForm(request.POST, instance=request.user.profile)
         if user_form.is_valid() and cat_form.is_valid() and unit_form.is_valid():
             user_form.save()
             unit_form.save()
-            cat_form.save()
             messages.success(request, 'Workout information was successfully updated.')
             return redirect('settings')
         else:
@@ -174,12 +169,10 @@ def edit_user_preferences(request):
     else:
         user_form = EditWorkoutInfoForm(instance=request.user.profile)
         unit_form = EditUnitsForm(instance=request.user.profile)
-        cat_form = EditCategoryForm(instance=request.user.profile)
     context = {
         'title': 'Edit User Preferences',
         'user_form': user_form,
         'unit_form': unit_form,
-        'cat_form': cat_form,
     }
     return render(request, 'users/edit-user-preferences.html', context)
 

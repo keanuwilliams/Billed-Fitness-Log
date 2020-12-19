@@ -76,12 +76,3 @@ class EditUnitsForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['weight_units', 'distance_units']
-
-
-class EditCategoryForm(forms.ModelForm):
-
-    hide_resistance = forms.BooleanField(label="Resistance", required=False)
-
-    class Meta:
-        model = Profile
-        fields = ['hide_resistance']

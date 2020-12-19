@@ -2,36 +2,9 @@
 {% block content %}
 <div class="container-fluid">
   <div class="row text-center align-items-center mb-4">
-    <div class="col-md-2 mb-3">
-      <div class="dropdown">
-        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {% if category %}
-          {{ category }}
-          {% else %}
-          VIEW ALL
-          {% endif %}
-        </a>
-
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <a class="dropdown-item" href="{% url 'my-workouts' %}">VIEW ALL</a>
-          <a class="dropdown-item" href="{% url 'my-c-workouts' %}">CARDIO</a>
-          {% if not user.profile.hide_resistance %}
-          <a class="dropdown-item" href="{% url 'my-r-workouts' %}">RESISTANCE</a>
-          {% endif %}
-          <a class="dropdown-item" href="{% url 'my-wl-workouts' %}">WEIGHTLIFTING</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <h1 class="page-title">
-        {% block title %}{% endblock title %}
-      </h1>
-    </div>
-    <div class="col-md-2 mb-3">
-      <a class="btn form-button" href="{% url 'workout-select' %}" role="button">
-        Add Workout
-      </a>
-    </div>
+    <h1 class="page-title">
+      {% block title %}{% endblock title %}
+    </h1>
   </div>
   <div class="row">
     <div class="col-md-12">
