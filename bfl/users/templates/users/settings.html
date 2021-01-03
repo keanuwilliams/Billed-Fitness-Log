@@ -5,15 +5,15 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-9">
-      <h1 class="page-title">Account Settings</h1>
+      <h1 class="page-title">Settings</h1>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
-      <legend class="border-bottom mb-4">User Settings</legend>
-      <a class="settings-item" href="{% url 'edit-user-preferences' %}">Edit User Preferences</a> <br/>
-      <a class="settings-item" href="{% url 'edit-profile' user.username %}">Edit Account Information</a> <br/>
+      <legend class="border-bottom mb-4">My Account</legend>
+      <a class="settings-item" href="{% url 'edit-profile' %}">Account Information</a> <br/>
       <a class="settings-item" href="{% url 'change-password' %}">Change Password</a> <br/>
+      <a class="settings-item" href="{% url 'edit-user-preferences' %}">User Preferences</a> <br/>
       {% if not user.is_superuser %}
       <a class="settings-item" href="{% url 'deactivate' %}">Deactivate Your Account</a>
       {% endif %}

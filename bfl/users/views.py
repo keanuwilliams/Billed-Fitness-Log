@@ -101,47 +101,42 @@ def profile(request, username):
 
 
 @login_required
-def edit_profile(request, username):
+def edit_profile(request):
     try:
-        user = User.objects.get(username=username)
+        user = request.user
     except User.DoesNotExist:
         raise Http404
     else:
-        if user != request.user:
-            messages.warning(request, f'You are not authorized to edit this profile, but you are able to '
-                                      f'edit your own.')
-            return redirect('edit-profile', request.user.username)
-        else:
-            if request.method == 'POST':
-                username = request.user.username
-                user_form = UserUpdateForm(request.POST, instance=request.user)
-                profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
-                if user_form.is_valid() and profile_form.is_valid():
-                    user_form.save()
-                    profile_form.save()
-                    messages.success(request, f'Your account has been updated!')
-                    referer = request.POST.get('next')
-                    if referer:
-                        if '/settings/' in referer:
-                            return redirect('settings')
-                        elif user_form.cleaned_data.get('username'):
-                            return redirect('profile', username)
-                        else:
-                            return redirect('profile', user_form.cleaned_data.get('username'))
+        if request.method == 'POST':
+            username = request.user.username
+            user_form = UserUpdateForm(request.POST, instance=request.user)
+            profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+            if user_form.is_valid() and profile_form.is_valid():
+                user_form.save()
+                profile_form.save()
+                messages.success(request, f'Your account has been updated!')
+                referer = request.POST.get('next')
+                if referer:
+                    if '/settings/' in referer:
+                        return redirect('settings')
+                    elif user_form.cleaned_data.get('username'):
+                        return redirect('profile', username)
                     else:
                         return redirect('profile', user_form.cleaned_data.get('username'))
-            else:
-                referer = request.META.get('HTTP_REFERER')
-                if referer is None:
-                    referer = reverse('profile', args=[request.user.username])
-                user_form = UserUpdateForm(instance=request.user)
-                profile_form = ProfileUpdateForm(instance=request.user.profile)
+                else:
+                    return redirect('profile', user_form.cleaned_data.get('username'))
+        else:
+            referer = request.META.get('HTTP_REFERER')
+            if referer is None:
+                referer = reverse('profile', args=[request.user.username])
+            user_form = UserUpdateForm(instance=request.user)
+            profile_form = ProfileUpdateForm(instance=request.user.profile)
 
             context = {
-                'title': 'Edit Profile',
-                'user_form': user_form,
-                'profile_form': profile_form,
-                'referer': referer,
+            'title': 'Edit Profile',
+            'user_form': user_form,
+            'profile_form': profile_form,
+            'referer': referer,
             }
             return render(request, 'users/edit-profile.html', context)
 
@@ -158,7 +153,7 @@ def edit_user_preferences(request):
     if request.method == "POST":
         user_form = EditWorkoutInfoForm(request.POST, instance=request.user.profile)
         unit_form = EditUnitsForm(request.POST, instance=request.user.profile)
-        if user_form.is_valid() and cat_form.is_valid() and unit_form.is_valid():
+        if user_form.is_valid() and unit_form.is_valid():
             user_form.save()
             unit_form.save()
             messages.success(request, 'Workout information was successfully updated.')

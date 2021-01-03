@@ -73,6 +73,17 @@ class EditWorkoutInfoForm(forms.ModelForm):
 
 class EditUnitsForm(forms.ModelForm):
 
+    weight_units = forms.ChoiceField(choices=(
+    ('lbs', 'Pounds (lbs)'),
+    ('kg', 'Kilograms (kg)'),
+    ('st', 'Stone (st)'),
+    ), widget=forms.RadioSelect())
+
+    distance_units = forms.ChoiceField(choices=(
+    ('mi', 'Miles (mi)'),
+    ('km', 'Kilometers (km)'),
+    ), widget=forms.RadioSelect())
+
     class Meta:
         model = Profile
         fields = ['weight_units', 'distance_units']

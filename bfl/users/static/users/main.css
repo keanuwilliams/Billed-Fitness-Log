@@ -34,11 +34,6 @@
    background-color: rgba(0,0,0,0.25);
 }
 
-#workout-nav {
-   background-color: rgba(0,0,0,0.25);
-   padding: 1em 0.5em 1em 0.5em;
-}
-
 /* Footer */
 #footer {
   background-color: #28334aff;
@@ -49,34 +44,13 @@
   color: white;
 }
 
-#dropdownMenuLink:hover, .nav-link:hover, .page-link:hover, .settings-item:hover, .workout-title-link:hover,
-.workout-user-link:hover {
+#dropdownMenuLink:hover, .nav-link:hover, .page-link:hover, .settings-item:hover {
   color: gray;
   text-decoration: none;
 }
 
 .navbar-link, .page-link, .navbar-item, .dropdown-item, .settings-item {
   color: black;
-}
-
-.workout-title-link, .workout-user-link {
-  color: black;
-  font-size: 1em;
-}
-
-.workout-detail-user-link {
-  font-size: 1em;
-  color: #fbde44;
-  padding: -3em 3em 0 0;
-}
-
-.workout-detail-user-link:hover {
-  color: #e1bc05;
-  text-decoration: none;
-}
-
-#workout-menu {
-  padding-bottom: 3em;
 }
 
 #profile-image {
